@@ -6,7 +6,7 @@
     <title>Илья & Юлия | Свадьба</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Marck+Script&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #F7F4EE;
@@ -21,6 +21,7 @@
             --border: #E0DCD4;
             --card: #FFFFFF;
             --shadow: rgba(61, 59, 56, 0.08);
+            --ink: #2a2622;
         }
 
         * {
@@ -58,103 +59,160 @@
             z-index: -1;
         }
 
+        /* Texture overlay */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+
         .container {
             max-width: 480px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* Hero Section */
-        .hero {
+        /* ============================================
+           HERO ANIMATION SECTION
+           ============================================ */
+        .hero-animation {
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 60px 20px;
+            justify-content: center;
             position: relative;
             overflow: hidden;
+            background: linear-gradient(to bottom, var(--bg-warm) 0%, var(--bg) 100%);
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(122, 139, 110, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
-        }
-
-        .hero-content {
+        .canvas-container {
             position: relative;
-            z-index: 1;
+            z-index: 10;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
         }
 
-        .hero-label {
+        .canvas-svg {
+            width: 100%;
+            height: auto;
+            overflow: visible;
+            max-width: 500px;
+        }
+
+        /* Text Styles for Animation */
+        .text-large {
+            font-family: 'Marck Script', cursive;
+            font-size: 120px;
+            fill: var(--ink);
+        }
+
+        .text-names {
+            font-family: 'Marck Script', cursive;
+            font-size: 80px;
+            fill: var(--ink);
+        }
+
+        /* Mask Animation */
+        .mask-drawing-path {
+            fill: none;
+            stroke: white;
+            stroke-width: 40px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 5000;
+            stroke-dashoffset: 5000;
+            transition: stroke-dashoffset 3.5s cubic-bezier(0.35, 0, 0.15, 1);
+        }
+
+        .mask-drawing-path.names {
+            stroke-width: 30px;
+            transition-duration: 3s;
+        }
+
+        .mask-drawing-path.drawing {
+            stroke-dashoffset: 0;
+        }
+
+        /* Printed Text */
+        .printed-text {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 0.75rem;
-            font-weight: 400;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--fg-light);
-            margin-bottom: 24px;
+            font-size: 18px;
+            letter-spacing: 0.5em;
+            fill: var(--fg-light);
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease forwards;
+            transition: opacity 1.5s ease;
         }
 
-        .hero-names {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 3.5rem;
-            font-weight: 300;
-            line-height: 1.1;
-            color: var(--fg);
-            margin-bottom: 16px;
+        .printed-text.visible {
+            opacity: 1;
+        }
+
+        /* Brush */
+        .brush {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
             opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease 0.2s forwards;
+            transform: translate(-50%, -50%) scale(0.8);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        .hero-ampersand {
-            display: inline-block;
-            font-style: italic;
-            color: var(--accent);
-            margin: 0 8px;
-            font-size: 2.5rem;
+        .brush.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
         }
 
-        .hero-date {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.1rem;
-            font-weight: 400;
-            letter-spacing: 0.15em;
-            color: var(--fg-light);
-            margin-bottom: 40px;
+        .brush-body {
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle at 30% 30%, #555, var(--ink));
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+        }
+
+        /* Corner Decorations */
+        .corner {
+            position: fixed;
+            width: 50px;
+            height: 50px;
             opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease 0.4s forwards;
+            transition: opacity 2s ease;
+            z-index: 5;
         }
 
-        .hero-line {
-            width: 60px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            margin: 0 auto 40px;
+        .corner.visible {
+            opacity: 0.3;
+        }
+
+        .corner path {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 0.5;
+        }
+
+        .corner-tl { top: 20px; left: 20px; }
+        .corner-tr { top: 20px; right: 20px; transform: rotate(90deg); }
+        .corner-bl { bottom: 20px; left: 20px; transform: rotate(-90deg); }
+        .corner-br { bottom: 20px; right: 20px; transform: rotate(180deg); }
+
+        /* Dust Particles */
+        .dust {
+            position: fixed;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
             opacity: 0;
-            animation: fadeIn 0.8s ease 0.6s forwards;
+            z-index: 2;
         }
 
-        .scroll-hint {
+        /* Scroll Indicator */
+        .scroll-indicator {
             position: absolute;
             bottom: 40px;
             left: 50%;
@@ -162,44 +220,92 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
             opacity: 0;
-            animation: fadeIn 1s ease 1s forwards;
+            transition: opacity 0.8s ease;
+            z-index: 20;
         }
 
-        .scroll-hint span {
+        .scroll-indicator.visible {
+            opacity: 1;
+        }
+
+        .scroll-indicator span {
             font-size: 0.7rem;
             letter-spacing: 0.2em;
             color: var(--fg-light);
+            font-family: 'Cormorant Garamond', serif;
         }
 
         .scroll-icon {
-            width: 20px;
-            height: 32px;
+            width: 22px;
+            height: 36px;
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 11px;
             position: relative;
         }
 
         .scroll-icon::before {
             content: '';
             position: absolute;
-            top: 6px;
+            top: 8px;
             left: 50%;
             transform: translateX(-50%);
             width: 3px;
-            height: 6px;
+            height: 8px;
             background: var(--accent);
             border-radius: 2px;
-            animation: scrollDown 1.5s ease-in-out infinite;
+            animation: scrollBounce 1.8s ease-in-out infinite;
         }
 
-        @keyframes scrollDown {
-            0%, 100% { top: 6px; opacity: 1; }
-            50% { top: 14px; opacity: 0.3; }
+        @keyframes scrollBounce {
+            0%, 100% { top: 8px; opacity: 1; }
+            50% { top: 18px; opacity: 0.3; }
         }
 
-        /* Sections */
+        /* Replay Button */
+        .replay-btn {
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: none;
+            border: 1px solid rgba(0,0,0,0.08);
+            color: var(--fg-light);
+            padding: 10px 28px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 20;
+        }
+
+        .replay-btn.visible {
+            opacity: 1;
+        }
+
+        .replay-btn:hover {
+            border-color: var(--gold);
+            color: var(--fg);
+        }
+
+        /* Mobile adjustments for animation */
+        @media (max-width: 480px) {
+            .text-large { font-size: 80px; }
+            .text-names { font-size: 55px; }
+            .mask-drawing-path { stroke-width: 25px; }
+            .mask-drawing-path.names { stroke-width: 18px; }
+            .printed-text { font-size: 12px; letter-spacing: 0.3em; }
+            .corner { width: 30px; height: 30px; }
+            .canvas-svg { max-width: 340px; }
+        }
+
+        /* ============================================
+           CONTENT SECTIONS
+           ============================================ */
         section {
             padding: 60px 0;
             opacity: 0;
@@ -417,7 +523,7 @@
             flex: 1;
         }
 
-        .program-title {
+        .program-title-item {
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.15rem;
             font-weight: 500;
@@ -443,7 +549,7 @@
             aspect-ratio: 16/10;
             object-fit: cover;
             display: block;
-            background: var(--border);
+            background: linear-gradient(135deg, var(--border) 0%, var(--bg) 100%);
         }
 
         .location-content {
@@ -503,6 +609,7 @@
             margin: 0 auto;
             display: block;
             box-shadow: 0 4px 20px var(--shadow);
+            background: linear-gradient(135deg, var(--border) 0%, var(--bg) 100%);
         }
 
         .color-palette {
@@ -804,18 +911,6 @@
             letter-spacing: 0.1em;
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
         /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
             *,
@@ -829,21 +924,72 @@
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <p class="hero-label">Приглашение на свадьбу</p>
-            <h1 class="hero-names">
-                Илья<span class="hero-ampersand">&</span>Юлия
-            </h1>
-            <p class="hero-date">19 июня 2026</p>
-            <div class="hero-line"></div>
+
+    <!-- ============================================
+         HERO ANIMATION SECTION
+         ============================================ -->
+    <section class="hero-animation">
+        <!-- Brush cursor -->
+        <div class="brush" id="brush">
+            <div class="brush-body"></div>
         </div>
-        <div class="scroll-hint">
+
+        <!-- Corner decorations -->
+        <svg class="corner corner-tl" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
+        <svg class="corner corner-tr" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
+        <svg class="corner corner-bl" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
+        <svg class="corner corner-br" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
+
+        <!-- Main SVG Canvas -->
+        <div class="canvas-container">
+            <svg class="canvas-svg" viewBox="0 0 600 400" id="mainSvg">
+                <defs>
+                    <!-- MASK 1: "Всё" -->
+                    <mask id="mask-vse">
+                        <rect width="100%" height="100%" fill="black"/>
+                        <text class="mask-drawing-path" id="mask-path-vse" x="30" y="120" font-family="'Marck Script', cursive" font-size="120">Всё</text>
+                    </mask>
+
+                    <!-- MASK 2: "с нуля" -->
+                    <mask id="mask-snulya">
+                        <rect width="100%" height="100%" fill="black"/>
+                        <text class="mask-drawing-path" id="mask-path-snulya" x="30" y="250" font-family="'Marck Script', cursive" font-size="120">с нуля</text>
+                    </mask>
+
+                    <!-- MASK 3: "Илья и Юлия" -->
+                    <mask id="mask-names">
+                        <rect width="100%" height="100%" fill="black"/>
+                        <text class="mask-drawing-path names" id="mask-path-names" x="180" y="360" font-family="'Marck Script', cursive" font-size="80">Илья и Юлия</text>
+                    </mask>
+                </defs>
+
+                <!-- Layer 1: "Всё" -->
+                <text class="text-large" x="30" y="120" mask="url(#mask-vse)">Всё</text>
+
+                <!-- Layer 2: "НАЧИНАЕТСЯ" -->
+                <text id="printed" class="printed-text" x="300" y="130" text-anchor="middle">НАЧИНАЕТСЯ</text>
+
+                <!-- Layer 3: "с нуля" -->
+                <text class="text-large" x="30" y="250" mask="url(#mask-snulya)">с нуля</text>
+
+                <!-- Layer 4: "Илья и Юлия" -->
+                <text class="text-names" x="180" y="360" mask="url(#mask-names)">Илья и Юлия</text>
+            </svg>
+        </div>
+
+        <!-- Replay button -->
+        <button class="replay-btn" id="replayBtn">Написать снова</button>
+
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator" id="scrollIndicator">
             <span>Листайте вниз</span>
             <div class="scroll-icon"></div>
         </div>
     </section>
+
+    <!-- ============================================
+         CONTENT SECTIONS
+         ============================================ -->
 
     <!-- Welcome Section -->
     <section class="container">
@@ -863,7 +1009,7 @@
     <section class="container" id="calendar-section">
         <p class="section-label">Сохраните дату</p>
         <h2 class="section-title">Июнь 2026</h2>
-        
+
         <div class="calendar-wrapper">
             <div class="calendar-header">
                 <span class="calendar-month">Июнь</span>
@@ -877,7 +1023,6 @@
                 <span class="calendar-day-name">Пт</span>
                 <span class="calendar-day-name">Сб</span>
                 <span class="calendar-day-name">Вс</span>
-                <!-- June 2026 starts on Monday -->
                 <span class="calendar-day">1</span>
                 <span class="calendar-day">2</span>
                 <span class="calendar-day">3</span>
@@ -938,33 +1083,33 @@
     <section class="container" id="program-section">
         <p class="section-label">Расписание</p>
         <h2 class="section-title">Программа дня</h2>
-        
+
         <div class="program-list">
             <div class="program-item">
                 <span class="program-time">15:00</span>
                 <div class="program-content">
-                    <div class="program-title">Сбор гостей</div>
+                    <div class="program-title-item">Сбор гостей</div>
                     <div class="program-desc">Фуршет и приветственные напитки</div>
                 </div>
             </div>
             <div class="program-item">
                 <span class="program-time">16:00</span>
                 <div class="program-content">
-                    <div class="program-title">Выездная регистрация</div>
+                    <div class="program-title-item">Выездная регистрация</div>
                     <div class="program-desc">Торжественная церемония бракосочетания</div>
                 </div>
             </div>
             <div class="program-item">
                 <span class="program-time">17:00</span>
                 <div class="program-content">
-                    <div class="program-title">Праздничный банкет</div>
+                    <div class="program-title-item">Праздничный банкет</div>
                     <div class="program-desc">Ужин, тосты и веселье</div>
                 </div>
             </div>
             <div class="program-item">
                 <span class="program-time">23:00</span>
                 <div class="program-content">
-                    <div class="program-title">Завершение вечера</div>
+                    <div class="program-title-item">Завершение вечера</div>
                     <div class="program-desc">Теплые прощания до новых встреч</div>
                 </div>
             </div>
@@ -975,9 +1120,9 @@
     <section class="container" id="location-section">
         <p class="section-label">Место проведения</p>
         <h2 class="section-title">Где нас найти</h2>
-        
+
         <div class="location-card">
-            <img src="dom.jpeg" alt="Усадьба Масловыхъ" class="location-image" onerror="this.style.display='none'">
+            <img src="dom.jpeg" alt="Усадьба Масловыхъ" class="location-image" onerror="this.style.background='linear-gradient(135deg, #E0DCD4 0%, #F7F4EE 100%)'">
             <div class="location-content">
                 <h3 class="location-name">Усадьба Масловыхъ</h3>
                 <p class="location-address">
@@ -1000,13 +1145,13 @@
     <section class="container dresscode-section" id="dresscode-section">
         <p class="section-label">Стиль</p>
         <h2 class="section-title">Дресс-код</h2>
-        
+
         <p class="dresscode-text">
             Мы знаем, вы прекрасны в любом наряде, но особенно приятно нам будет, если вы поддержите цветовую гамму нашего торжества.
         </p>
-        
-        <img src="prikid.jpeg" alt="Примеры нарядов" class="dresscode-image" onerror="this.style.display='none'">
-        
+
+        <img src="prikid.jpeg" alt="Примеры нарядов" class="dresscode-image" onerror="this.style.background='linear-gradient(135deg, #E0DCD4 0%, #F7F4EE 100%)'">
+
         <div class="color-palette">
             <div class="color-swatch" style="background: #7A8B6E;" title="Оливковый"></div>
             <div class="color-swatch" style="background: #B8A77C;" title="Песочный"></div>
@@ -1020,10 +1165,10 @@
     <section class="container details-section" id="details-section">
         <p class="section-label">Важное</p>
         <h2 class="section-title">Пожелания и детали</h2>
-        
+
         <div class="details-card">
             <p class="details-intro">Мы догадываемся, что после получения приглашения у вас может появиться ряд вопросов</p>
-            
+
             <div class="details-list">
                 <div class="detail-item">
                     <div class="detail-icon">🚐</div>
@@ -1057,9 +1202,9 @@
     <section class="container contacts-section" id="contacts-section">
         <p class="section-label">Связь</p>
         <h2 class="section-title">Контакты</h2>
-        
+
         <p class="contacts-text">Если у вас возникнут вопросы или вы хотите сделать сюрприз, можете обращаться к нашему свадебному организатору</p>
-        
+
         <div class="contact-card">
             <div class="contact-name">Кристина</div>
             <a href="tel:+79122729618" class="contact-phone">+7 912 272 9618</a>
@@ -1070,9 +1215,9 @@
     <section class="container form-section" id="form-section">
         <p class="section-label">Анкета</p>
         <h2 class="section-title">Подтвердите присутствие</h2>
-        
+
         <p class="form-intro">Будем признательны, если вы подтвердите свое присутствие и заполните анкету, чтобы мы могли планировать торжество наилучшим образом.</p>
-        
+
         <div class="form-card">
             <form id="rsvp-form">
                 <div class="form-group">
@@ -1206,15 +1351,52 @@
     </footer>
 
     <script>
-        // Initialize all variables first
-        const weddingDate = new Date('2026-06-19T15:00:00+05:00'); // Yekaterinburg timezone
+        // ============================================
+        // INITIALIZATION - All variables declared first
+        // ============================================
         
+        // Wedding date
+        const weddingDate = new Date('2026-06-19T15:00:00+05:00');
+        
+        // Countdown elements
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
         const minutesEl = document.getElementById('minutes');
         const secondsEl = document.getElementById('seconds');
 
-        // Countdown timer
+        // Animation elements
+        const brush = document.getElementById('brush');
+        const mainSvg = document.getElementById('mainSvg');
+        const replayBtn = document.getElementById('replayBtn');
+        const scrollIndicator = document.getElementById('scrollIndicator');
+        const corners = document.querySelectorAll('.corner');
+        
+        // Mask paths
+        const maskPathVse = document.getElementById('mask-path-vse');
+        const maskPathSnulya = document.getElementById('mask-path-snulya');
+        const maskPathNames = document.getElementById('mask-path-names');
+        const printedText = document.getElementById('printed');
+
+        // Form elements
+        const form = document.getElementById('rsvp-form');
+        const attendanceInputs = document.querySelectorAll('input[name="attendance"]');
+        const companionGroup = document.getElementById('companion-group');
+        const childrenGroup = document.getElementById('children-group');
+        const transferGroup = document.getElementById('transfer-group');
+        const allergyGroup = document.getElementById('allergy-group');
+        const foodGroup = document.getElementById('food-group');
+        const drinksGroup = document.getElementById('drinks-group');
+        const submitBtn = document.getElementById('submit-btn');
+        const formSuccess = document.getElementById('form-success');
+
+        // Animation state
+        let animationFrameId = null;
+        let isAnimating = false;
+
+        // ============================================
+        // COUNTDOWN TIMER
+        // ============================================
+        
         function updateCountdown() {
             const now = new Date();
             const diff = weddingDate - now;
@@ -1238,11 +1420,13 @@
             secondsEl.textContent = seconds.toString().padStart(2, '0');
         }
 
-        // Start countdown
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
-        // Intersection Observer for scroll animations
+        // ============================================
+        // SCROLL ANIMATIONS
+        // ============================================
+        
         const observerOptions = {
             root: null,
             rootMargin: '0px',
@@ -1257,24 +1441,155 @@
             });
         }, observerOptions);
 
-        // Observe all sections
-        document.querySelectorAll('section:not(.hero)').forEach(section => {
+        document.querySelectorAll('.container').forEach(section => {
             observer.observe(section);
         });
 
-        // Form handling
-        const form = document.getElementById('rsvp-form');
-        const attendanceInputs = document.querySelectorAll('input[name="attendance"]');
-        const companionGroup = document.getElementById('companion-group');
-        const childrenGroup = document.getElementById('children-group');
-        const transferGroup = document.getElementById('transfer-group');
-        const allergyGroup = document.getElementById('allergy-group');
-        const foodGroup = document.getElementById('food-group');
-        const drinksGroup = document.getElementById('drinks-group');
-        const submitBtn = document.getElementById('submit-btn');
-        const formSuccess = document.getElementById('form-success');
+        // ============================================
+        // HERO ANIMATION
+        // ============================================
+        
+        const TIMING = {
+            word1Duration: 3000,
+            word1Start: 400,
+            printedStart: 2000,
+            word2Start: 3800,
+            word2Duration: 3000,
+            namesStart: 7500,
+            namesDuration: 3000,
+            endBuffer: 600
+        };
 
-        // Show/hide form fields based on attendance
+        const MOTION = {
+            vse: { startX: 30, endX: 250, baseY: 100 },
+            snulya: { startX: 30, endX: 400, baseY: 230 },
+            names: { startX: 180, endX: 550, baseY: 340 }
+        };
+
+        function svgToScreen(svgX, svgY) {
+            const rect = mainSvg.getBoundingClientRect();
+            const scaleX = rect.width / 600;
+            const scaleY = rect.height / 400;
+            return {
+                x: rect.left + (svgX * scaleX),
+                y: rect.top + (svgY * scaleY)
+            };
+        }
+
+        function setBrushPos(screenX, screenY) {
+            brush.style.left = screenX + 'px';
+            brush.style.top = screenY + 'px';
+        }
+
+        function animateBrushMotion(startX, endX, baseY, duration) {
+            const startTime = performance.now();
+            
+            function step(currentTime) {
+                if (!isAnimating) return;
+
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                
+                const currentX = startX + (endX - startX) * eased;
+                const jitter = Math.sin(elapsed * 0.02) * 4 + (Math.random() - 0.5) * 2;
+                const currentY = baseY + jitter;
+
+                const pos = svgToScreen(currentX, currentY);
+                setBrushPos(pos.x, pos.y);
+
+                if (progress < 1) {
+                    animationFrameId = requestAnimationFrame(step);
+                }
+            }
+
+            animationFrameId = requestAnimationFrame(step);
+        }
+
+        function runTimeline() {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            // Reset
+            brush.classList.remove('active');
+            maskPathVse.classList.remove('drawing');
+            maskPathSnulya.classList.remove('drawing');
+            maskPathNames.classList.remove('drawing');
+            printedText.classList.remove('visible');
+            scrollIndicator.classList.remove('visible');
+            
+            requestAnimationFrame(() => {
+                corners.forEach(c => c.classList.add('visible'));
+                replayBtn.classList.remove('visible');
+
+                // Word 1: "Всё"
+                setTimeout(() => {
+                    brush.classList.add('active');
+                    maskPathVse.classList.add('drawing');
+                    animateBrushMotion(MOTION.vse.startX, MOTION.vse.endX, MOTION.vse.baseY, TIMING.word1Duration);
+                }, TIMING.word1Start);
+
+                // Printed text: "НАЧИНАЕТСЯ"
+                setTimeout(() => {
+                    printedText.classList.add('visible');
+                }, TIMING.printedStart);
+
+                // Word 2: "с нуля"
+                setTimeout(() => {
+                    brush.classList.add('active');
+                    maskPathSnulya.classList.add('drawing');
+                    animateBrushMotion(MOTION.snulya.startX, MOTION.snulya.endX, MOTION.snulya.baseY, TIMING.word2Duration);
+                }, TIMING.word2Start);
+
+                // Names: "Илья и Юлия"
+                setTimeout(() => {
+                    brush.classList.add('active');
+                    maskPathNames.classList.add('drawing');
+                    animateBrushMotion(MOTION.names.startX, MOTION.names.endX, MOTION.names.baseY, TIMING.namesDuration);
+                }, TIMING.namesStart);
+
+                // End
+                const totalTime = TIMING.namesStart + TIMING.namesDuration + TIMING.endBuffer;
+                setTimeout(() => {
+                    brush.classList.remove('active');
+                    replayBtn.classList.add('visible');
+                    scrollIndicator.classList.add('visible');
+                    isAnimating = false;
+                }, totalTime);
+            });
+        }
+
+        // Dust particles
+        function createDust() {
+            const el = document.createElement('div');
+            el.className = 'dust';
+            const startX = Math.random() * window.innerWidth;
+            const size = Math.random() * 2.5 + 1;
+            
+            el.style.width = size + 'px';
+            el.style.height = size + 'px';
+            el.style.left = startX + 'px';
+            el.style.bottom = '0px';
+            
+            document.body.appendChild(el);
+            
+            const dur = 12000 + Math.random() * 5000;
+            const xDrift = (Math.random() - 0.5) * 100;
+
+            el.animate([
+                { opacity: 0, transform: 'translateY(0)' },
+                { opacity: 0.4, offset: 0.2 },
+                { opacity: 0.1, offset: 0.8 },
+                { opacity: 0, transform: `translateY(-${window.innerHeight}px) translateX(${xDrift}px)` }
+            ], { duration: dur, easing: 'linear' });
+            
+            setTimeout(() => el.remove(), dur);
+        }
+
+        // ============================================
+        // FORM HANDLING
+        // ============================================
+        
         attendanceInputs.forEach(input => {
             input.addEventListener('change', (e) => {
                 const isAttending = e.target.value === 'Да';
@@ -1297,9 +1612,6 @@
             });
         });
 
-        // Google Sheets integration
-        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
-
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -1319,30 +1631,26 @@
                 drinks: formData.getAll('drinks').join(', ')
             };
 
-            try {
-                // Try to send to Google Sheets
-                if (GOOGLE_SCRIPT_URL !== 'https://script.google.com/macros/s/AKfycbyjkTD2FVT_rrE53qVwyofZszCCMWFDNP0bdNyKTFLgQNMsIFTiKQaPRtGwt_S6RFYw/exec') {
-                    await fetch(GOOGLE_SCRIPT_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data)
-                    });
-                }
-                
-                // Show success message
+            // For now, just show success
+            // In production, send to Google Sheets via Apps Script
+            console.log('Form data:', data);
+            
+            setTimeout(() => {
                 form.style.display = 'none';
                 formSuccess.classList.add('show');
-                
-            } catch (error) {
-                console.error('Error:', error);
-                // Still show success even if submission fails
-                form.style.display = 'none';
-                formSuccess.classList.add('show');
-            }
+            }, 500);
         });
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        
+        window.addEventListener('load', () => {
+            setInterval(createDust, 400);
+            runTimeline();
+        });
+
+        replayBtn.addEventListener('click', runTimeline);
 
         // Smooth scroll for internal links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
