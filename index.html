@@ -48,10 +48,7 @@
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-image: 
                 radial-gradient(ellipse at 20% 20%, rgba(122, 139, 110, 0.03) 0%, transparent 50%),
                 radial-gradient(ellipse at 80% 80%, rgba(184, 167, 124, 0.03) 0%, transparent 50%);
@@ -76,9 +73,10 @@
         }
 
         /* ============================================
-           HERO ANIMATION SECTION
+           HERO ANIMATION SECTION - FIXED
            ============================================ */
         .hero-animation {
+            width: 100%;
             min-height: 100vh;
             min-height: 100dvh;
             display: flex;
@@ -86,65 +84,75 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(to bottom, var(--bg-warm) 0%, var(--bg) 100%);
+            background: linear-gradient(180deg, var(--bg-warm) 0%, var(--bg) 100%);
         }
 
         .canvas-container {
             position: relative;
             z-index: 10;
             width: 100%;
-            padding: 20px;
-            text-align: center;
+            max-width: 600px;
+            padding: 40px 20px;
         }
 
         .canvas-svg {
             width: 100%;
             height: auto;
-            overflow: visible;
-            max-width: 500px;
+            display: block;
         }
 
-        /* Text Styles */
+        /* Main calligraphy text */
         .text-large {
             font-family: 'Marck Script', cursive;
-            font-size: 100px;
+            font-size: 140px;
             fill: var(--ink);
         }
 
         .text-names {
             font-family: 'Marck Script', cursive;
-            font-size: 65px;
+            font-size: 90px;
             fill: var(--ink);
         }
 
-        /* Mask Drawing Path - THE KEY FIX */
+        /* Mask drawing animation */
         .mask-drawing-path {
             fill: none;
             stroke: white;
-            stroke-width: 50px;
+            stroke-width: 80px;
             stroke-linecap: round;
             stroke-linejoin: round;
+            stroke-dasharray: 5000;
+            stroke-dashoffset: 5000;
         }
 
         .mask-drawing-path.names {
-            stroke-width: 35px;
+            stroke-width: 55px;
         }
 
-        /* Printed Text */
+        .mask-drawing-path.animate {
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 3s cubic-bezier(0.35, 0, 0.15, 1);
+        }
+
+        .mask-drawing-path.names.animate {
+            transition-duration: 2.5s;
+        }
+
+        /* Printed text */
         .printed-text {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 16px;
-            letter-spacing: 0.4em;
+            font-size: 20px;
+            letter-spacing: 0.5em;
             fill: var(--muted);
             opacity: 0;
+            transition: opacity 1.5s ease;
         }
 
         .printed-text.visible {
             opacity: 1;
-            transition: opacity 1.5s ease;
         }
 
-        /* Brush */
+        /* Brush cursor */
         .brush {
             position: fixed;
             pointer-events: none;
@@ -167,7 +175,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        /* Corner Decorations */
+        /* Corner decorations */
         .corner {
             position: fixed;
             width: 50px;
@@ -177,9 +185,7 @@
             z-index: 5;
         }
 
-        .corner.visible {
-            opacity: 0.3;
-        }
+        .corner.visible { opacity: 0.3; }
 
         .corner path {
             fill: none;
@@ -192,7 +198,7 @@
         .corner-bl { bottom: 20px; left: 20px; transform: rotate(-90deg); }
         .corner-br { bottom: 20px; right: 20px; transform: rotate(180deg); }
 
-        /* Dust Particles */
+        /* Dust particles */
         .dust {
             position: fixed;
             background: var(--gold);
@@ -202,7 +208,7 @@
             z-index: 2;
         }
 
-        /* Scroll Indicator */
+        /* Scroll indicator */
         .scroll-indicator {
             position: absolute;
             bottom: 40px;
@@ -217,9 +223,7 @@
             z-index: 20;
         }
 
-        .scroll-indicator.visible {
-            opacity: 1;
-        }
+        .scroll-indicator.visible { opacity: 1; }
 
         .scroll-indicator span {
             font-size: 0.7rem;
@@ -254,10 +258,10 @@
             50% { top: 18px; opacity: 0.3; }
         }
 
-        /* Replay Button */
+        /* Replay button */
         .replay-btn {
             position: absolute;
-            bottom: 120px;
+            bottom: 110px;
             left: 50%;
             transform: translateX(-50%);
             background: none;
@@ -274,10 +278,7 @@
             z-index: 20;
         }
 
-        .replay-btn.visible {
-            opacity: 1;
-        }
-
+        .replay-btn.visible { opacity: 1; }
         .replay-btn:hover {
             border-color: var(--gold);
             color: var(--fg);
@@ -285,13 +286,12 @@
 
         /* Mobile adjustments */
         @media (max-width: 480px) {
-            .text-large { font-size: 70px; }
-            .text-names { font-size: 48px; }
-            .mask-drawing-path { stroke-width: 35px; }
-            .mask-drawing-path.names { stroke-width: 25px; }
-            .printed-text { font-size: 11px; letter-spacing: 0.25em; }
-            .corner { width: 30px; height: 30px; }
-            .canvas-svg { max-width: 340px; }
+            .text-large { font-size: 100px; }
+            .text-names { font-size: 65px; }
+            .mask-drawing-path { stroke-width: 55px; }
+            .mask-drawing-path.names { stroke-width: 40px; }
+            .printed-text { font-size: 14px; letter-spacing: 0.3em; }
+            .corner { width: 35px; height: 35px; }
         }
 
         /* ============================================
@@ -360,9 +360,7 @@
             line-height: 1.9;
         }
 
-        .welcome-text p:last-child {
-            margin-bottom: 0;
-        }
+        .welcome-text p:last-child { margin-bottom: 0; }
 
         .calendar-wrapper {
             background: var(--card);
@@ -502,9 +500,7 @@
             min-width: 50px;
         }
 
-        .program-content {
-            flex: 1;
-        }
+        .program-content { flex: 1; }
 
         .program-title-item {
             font-family: 'Cormorant Garamond', serif;
@@ -562,14 +558,8 @@
             transition: color 0.3s ease;
         }
 
-        .location-link:hover {
-            color: var(--accent);
-        }
-
-        .location-link svg {
-            width: 16px;
-            height: 16px;
-        }
+        .location-link:hover { color: var(--accent); }
+        .location-link svg { width: 16px; height: 16px; }
 
         .dresscode-section {
             text-align: center;
@@ -608,9 +598,7 @@
             box-shadow: 0 2px 8px var(--shadow);
         }
 
-        .details-section {
-            padding: 0 20px;
-        }
+        .details-section { padding: 0 20px; }
 
         .details-card {
             background: var(--card);
@@ -697,13 +685,9 @@
             transition: color 0.3s ease;
         }
 
-        .contact-phone:hover {
-            color: var(--accent);
-        }
+        .contact-phone:hover { color: var(--accent); }
 
-        .form-section {
-            padding: 0 20px;
-        }
+        .form-section { padding: 0 20px; }
 
         .form-intro {
             text-align: center;
@@ -720,9 +704,7 @@
             box-shadow: 0 4px 24px var(--shadow);
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
 
         .form-label {
             display: block;
@@ -819,9 +801,7 @@
             box-shadow: 0 4px 16px rgba(122, 139, 110, 0.3);
         }
 
-        .form-submit:active {
-            transform: translateY(0);
-        }
+        .form-submit:active { transform: translateY(0); }
 
         .form-submit:disabled {
             background: var(--border);
@@ -835,9 +815,7 @@
             display: none;
         }
 
-        .form-success.show {
-            display: block;
-        }
+        .form-success.show { display: block; }
 
         .form-success-icon {
             width: 64px;
@@ -889,9 +867,7 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
+            *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
@@ -915,35 +891,48 @@
         <svg class="corner corner-br" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
 
         <div class="canvas-container">
-            <svg class="canvas-svg" viewBox="0 0 500 350" id="mainSvg">
+            <!-- Expanded viewBox for large text -->
+            <svg class="canvas-svg" viewBox="0 0 1000 650" id="mainSvg">
                 <defs>
+                    <!-- MASK 1: "Всё" -->
                     <mask id="mask-vse">
                         <rect width="100%" height="100%" fill="black"/>
-                        <path class="mask-drawing-path" id="mask-path-vse" d="M 40 95 Q 60 60 100 90 Q 140 120 120 80" />
+                        <text class="mask-drawing-path" id="mask-path-vse" 
+                              x="50" y="180" 
+                              font-family="'Marck Script', cursive" 
+                              font-size="140">Всё</text>
                     </mask>
-                    
+
+                    <!-- MASK 2: "с нуля" -->
                     <mask id="mask-snulya">
                         <rect width="100%" height="100%" fill="black"/>
-                        <path class="mask-drawing-path" id="mask-path-snulya" d="M 40 190 Q 200 180 300 190 Q 400 200 450 185" />
+                        <text class="mask-drawing-path" id="mask-path-snulya" 
+                              x="50" y="350" 
+                              font-family="'Marck Script', cursive" 
+                              font-size="140">с нуля</text>
                     </mask>
-                    
+
+                    <!-- MASK 3: "Илья и Юлия" -->
                     <mask id="mask-names">
                         <rect width="100%" height="100%" fill="black"/>
-                        <path class="mask-drawing-path names" id="mask-path-names" d="M 80 300 Q 200 280 300 300 Q 400 320 460 290" />
+                        <text class="mask-drawing-path names" id="mask-path-names" 
+                              x="350" y="550" 
+                              font-family="'Marck Script', cursive" 
+                              font-size="90">Илья и Юлия</text>
                     </mask>
                 </defs>
 
-                <!-- Layer 1: "Всё" -->
-                <text class="text-large" x="40" y="100" mask="url(#mask-vse)">Всё</text>
+                <!-- Layer 1: "Всё" (masked) -->
+                <text class="text-large" x="50" y="180" mask="url(#mask-vse)">Всё</text>
 
-                <!-- Layer 2: "НАЧИНАЕТСЯ" -->
-                <text id="printed" class="printed-text" x="250" y="100" text-anchor="middle">НАЧИНАЕТСЯ</text>
+                <!-- Layer 2: "НАЧИНАЕТСЯ" (printed, centered) -->
+                <text id="printed" class="printed-text" x="500" y="185" text-anchor="middle">НАЧИНАЕТСЯ</text>
 
-                <!-- Layer 3: "с нуля" -->
-                <text class="text-large" x="40" y="200" mask="url(#mask-snulya)">с нуля</text>
+                <!-- Layer 3: "с нуля" (masked) -->
+                <text class="text-large" x="50" y="350" mask="url(#mask-snulya)">с нуля</text>
 
-                <!-- Layer 4: "Илья и Юлия" -->
-                <text class="text-names" x="80" y="310" mask="url(#mask-names)">Илья и Юлия</text>
+                <!-- Layer 4: "Илья и Юлия" (masked, positioned right) -->
+                <text class="text-names" x="350" y="550" mask="url(#mask-names)">Илья и Юлия</text>
             </svg>
         </div>
 
@@ -1351,32 +1340,6 @@
         let animationFrameId = null;
         let isAnimating = false;
 
-        // Path lengths for stroke animation
-        const PATH_LENGTHS = {
-            vse: 300,
-            snulya: 500,
-            names: 500
-        };
-
-        // Motion coordinates
-        const MOTION = {
-            vse: { startX: 40, endX: 150, baseY: 85 },
-            snulya: { startX: 40, endX: 450, baseY: 185 },
-            names: { startX: 80, endX: 450, baseY: 295 }
-        };
-
-        // Timing
-        const TIMING = {
-            word1Duration: 2500,
-            word1Start: 500,
-            printedStart: 2200,
-            word2Start: 4000,
-            word2Duration: 2500,
-            namesStart: 7000,
-            namesDuration: 2500,
-            endBuffer: 500
-        };
-
         // ============================================
         // COUNTDOWN TIMER
         // ============================================
@@ -1430,13 +1393,31 @@
         });
 
         // ============================================
-        // HERO ANIMATION
+        // HERO ANIMATION - FIXED
         // ============================================
         
+        const TIMING = {
+            word1Duration: 3500,
+            word1Start: 400,
+            printedStart: 2500,
+            word2Start: 4200,
+            word2Duration: 3500,
+            namesStart: 8500,
+            namesDuration: 3000,
+            endBuffer: 800
+        };
+
+        // Brush motion paths (coordinates relative to viewBox 1000x650)
+        const MOTION = {
+            vse: { startX: 50, endX: 350, baseY: 150 },
+            snulya: { startX: 50, endX: 550, baseY: 320 },
+            names: { startX: 350, endX: 900, baseY: 510 }
+        };
+
         function svgToScreen(svgX, svgY) {
             const rect = mainSvg.getBoundingClientRect();
-            const scaleX = rect.width / 500;
-            const scaleY = rect.height / 350;
+            const scaleX = rect.width / 1000;
+            const scaleY = rect.height / 650;
             return {
                 x: rect.left + (svgX * scaleX),
                 y: rect.top + (svgY * scaleY)
@@ -1459,7 +1440,7 @@
                 const eased = 1 - Math.pow(1 - progress, 3);
                 
                 const currentX = startX + (endX - startX) * eased;
-                const jitter = Math.sin(elapsed * 0.015) * 5 + (Math.random() - 0.5) * 3;
+                const jitter = Math.sin(elapsed * 0.02) * 5 + (Math.random() - 0.5) * 2;
                 const currentY = baseY + jitter;
 
                 const pos = svgToScreen(currentX, currentY);
@@ -1473,47 +1454,28 @@
             animationFrameId = requestAnimationFrame(step);
         }
 
-        function animatePath(pathEl, length, duration) {
-            pathEl.style.strokeDasharray = length;
-            pathEl.style.strokeDashoffset = length;
-            
-            // Force reflow
-            void pathEl.getBoundingClientRect();
-            
-            pathEl.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.35, 0, 0.15, 1)`;
-            pathEl.style.strokeDashoffset = '0';
-        }
-
-        function resetPath(pathEl, length) {
-            pathEl.style.transition = 'none';
-            pathEl.style.strokeDasharray = length;
-            pathEl.style.strokeDashoffset = length;
-        }
-
         function runTimeline() {
             if (isAnimating) return;
             isAnimating = true;
 
-            // Reset all
+            // Reset
             brush.classList.remove('active');
-            resetPath(maskPathVse, PATH_LENGTHS.vse);
-            resetPath(maskPathSnulya, PATH_LENGTHS.snulya);
-            resetPath(maskPathNames, PATH_LENGTHS.names);
+            maskPathVse.classList.remove('animate');
+            maskPathSnulya.classList.remove('animate');
+            maskPathNames.classList.remove('animate');
             printedText.classList.remove('visible');
             scrollIndicator.classList.remove('visible');
             replayBtn.classList.remove('visible');
             
             corners.forEach(c => c.classList.remove('visible'));
 
-            // Start animation sequence
             requestAnimationFrame(() => {
-                // Show corners
                 corners.forEach(c => c.classList.add('visible'));
 
                 // Word 1: "Всё"
                 setTimeout(() => {
                     brush.classList.add('active');
-                    animatePath(maskPathVse, PATH_LENGTHS.vse, TIMING.word1Duration);
+                    maskPathVse.classList.add('animate');
                     animateBrushMotion(MOTION.vse.startX, MOTION.vse.endX, MOTION.vse.baseY, TIMING.word1Duration);
                 }, TIMING.word1Start);
 
@@ -1525,14 +1487,14 @@
                 // Word 2: "с нуля"
                 setTimeout(() => {
                     brush.classList.add('active');
-                    animatePath(maskPathSnulya, PATH_LENGTHS.snulya, TIMING.word2Duration);
+                    maskPathSnulya.classList.add('animate');
                     animateBrushMotion(MOTION.snulya.startX, MOTION.snulya.endX, MOTION.snulya.baseY, TIMING.word2Duration);
                 }, TIMING.word2Start);
 
                 // Names: "Илья и Юлия"
                 setTimeout(() => {
                     brush.classList.add('active');
-                    animatePath(maskPathNames, PATH_LENGTHS.names, TIMING.namesDuration);
+                    maskPathNames.classList.add('animate');
                     animateBrushMotion(MOTION.names.startX, MOTION.names.endX, MOTION.names.baseY, TIMING.namesDuration);
                 }, TIMING.namesStart);
 
@@ -1632,7 +1594,7 @@
         // ============================================
         
         window.addEventListener('load', () => {
-            setInterval(createDust, 400);
+            setInterval(createDust, 350);
             runTimeline();
         });
 
