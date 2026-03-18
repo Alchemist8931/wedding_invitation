@@ -22,6 +22,7 @@
             --card: #FFFFFF;
             --shadow: rgba(61, 59, 56, 0.08);
             --ink: #2a2622;
+            --muted: #88827a;
         }
 
         * {
@@ -44,7 +45,6 @@
             max-width: 100vw;
         }
 
-        /* Background pattern */
         body::before {
             content: '';
             position: fixed;
@@ -59,7 +59,6 @@
             z-index: -1;
         }
 
-        /* Texture overlay */
         body::after {
             content: "";
             position: fixed;
@@ -105,52 +104,44 @@
             max-width: 500px;
         }
 
-        /* Text Styles for Animation */
+        /* Text Styles */
         .text-large {
             font-family: 'Marck Script', cursive;
-            font-size: 120px;
+            font-size: 100px;
             fill: var(--ink);
         }
 
         .text-names {
             font-family: 'Marck Script', cursive;
-            font-size: 80px;
+            font-size: 65px;
             fill: var(--ink);
         }
 
-        /* Mask Animation */
+        /* Mask Drawing Path - THE KEY FIX */
         .mask-drawing-path {
             fill: none;
             stroke: white;
-            stroke-width: 40px;
+            stroke-width: 50px;
             stroke-linecap: round;
             stroke-linejoin: round;
-            stroke-dasharray: 5000;
-            stroke-dashoffset: 5000;
-            transition: stroke-dashoffset 3.5s cubic-bezier(0.35, 0, 0.15, 1);
         }
 
         .mask-drawing-path.names {
-            stroke-width: 30px;
-            transition-duration: 3s;
-        }
-
-        .mask-drawing-path.drawing {
-            stroke-dashoffset: 0;
+            stroke-width: 35px;
         }
 
         /* Printed Text */
         .printed-text {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 18px;
-            letter-spacing: 0.5em;
-            fill: var(--fg-light);
+            font-size: 16px;
+            letter-spacing: 0.4em;
+            fill: var(--muted);
             opacity: 0;
-            transition: opacity 1.5s ease;
         }
 
         .printed-text.visible {
             opacity: 1;
+            transition: opacity 1.5s ease;
         }
 
         /* Brush */
@@ -160,7 +151,7 @@
             z-index: 1000;
             opacity: 0;
             transform: translate(-50%, -50%) scale(0.8);
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            transition: opacity 0.3s ease;
         }
 
         .brush.active {
@@ -169,11 +160,11 @@
         }
 
         .brush-body {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             background: radial-gradient(circle at 30% 30%, #555, var(--ink));
             border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         /* Corner Decorations */
@@ -292,13 +283,13 @@
             color: var(--fg);
         }
 
-        /* Mobile adjustments for animation */
+        /* Mobile adjustments */
         @media (max-width: 480px) {
-            .text-large { font-size: 80px; }
-            .text-names { font-size: 55px; }
-            .mask-drawing-path { stroke-width: 25px; }
-            .mask-drawing-path.names { stroke-width: 18px; }
-            .printed-text { font-size: 12px; letter-spacing: 0.3em; }
+            .text-large { font-size: 70px; }
+            .text-names { font-size: 48px; }
+            .mask-drawing-path { stroke-width: 35px; }
+            .mask-drawing-path.names { stroke-width: 25px; }
+            .printed-text { font-size: 11px; letter-spacing: 0.25em; }
             .corner { width: 30px; height: 30px; }
             .canvas-svg { max-width: 340px; }
         }
@@ -306,14 +297,14 @@
         /* ============================================
            CONTENT SECTIONS
            ============================================ */
-        section {
+        section.content-section {
             padding: 60px 0;
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
-        section.visible {
+        section.content-section.visible {
             opacity: 1;
             transform: translateY(0);
         }
@@ -357,7 +348,6 @@
             font-size: 0.8rem;
         }
 
-        /* Welcome Text */
         .welcome-text {
             text-align: center;
             padding: 0 20px;
@@ -374,7 +364,6 @@
             margin-bottom: 0;
         }
 
-        /* Calendar */
         .calendar-wrapper {
             background: var(--card);
             border-radius: 16px;
@@ -426,10 +415,6 @@
             cursor: default;
         }
 
-        .calendar-day.other-month {
-            color: var(--border);
-        }
-
         .calendar-day.highlighted {
             background: var(--accent);
             color: white;
@@ -451,7 +436,6 @@
             50% { transform: scale(1.1); opacity: 0.5; }
         }
 
-        /* Countdown */
         .countdown-wrapper {
             margin-top: 32px;
         }
@@ -487,7 +471,6 @@
             letter-spacing: 0.05em;
         }
 
-        /* Program */
         .program-list {
             display: flex;
             flex-direction: column;
@@ -535,7 +518,6 @@
             color: var(--fg-light);
         }
 
-        /* Location */
         .location-card {
             background: var(--card);
             border-radius: 16px;
@@ -589,7 +571,6 @@
             height: 16px;
         }
 
-        /* Dress Code */
         .dresscode-section {
             text-align: center;
             padding: 0 20px;
@@ -627,7 +608,6 @@
             box-shadow: 0 2px 8px var(--shadow);
         }
 
-        /* Details */
         .details-section {
             padding: 0 20px;
         }
@@ -683,7 +663,6 @@
             font-weight: 500;
         }
 
-        /* Contacts */
         .contacts-section {
             text-align: center;
             padding: 0 20px;
@@ -722,7 +701,6 @@
             color: var(--accent);
         }
 
-        /* Form */
         .form-section {
             padding: 0 20px;
         }
@@ -885,7 +863,6 @@
             font-size: 0.9rem;
         }
 
-        /* Footer */
         .footer {
             text-align: center;
             padding: 60px 20px;
@@ -911,7 +888,6 @@
             letter-spacing: 0.1em;
         }
 
-        /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
             *,
             *::before,
@@ -928,71 +904,62 @@
     <!-- ============================================
          HERO ANIMATION SECTION
          ============================================ -->
-    <section class="hero-animation">
-        <!-- Brush cursor -->
+    <div class="hero-animation">
         <div class="brush" id="brush">
             <div class="brush-body"></div>
         </div>
 
-        <!-- Corner decorations -->
         <svg class="corner corner-tl" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
         <svg class="corner corner-tr" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
         <svg class="corner corner-bl" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
         <svg class="corner corner-br" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
 
-        <!-- Main SVG Canvas -->
         <div class="canvas-container">
-            <svg class="canvas-svg" viewBox="0 0 600 400" id="mainSvg">
+            <svg class="canvas-svg" viewBox="0 0 500 350" id="mainSvg">
                 <defs>
-                    <!-- MASK 1: "Всё" -->
                     <mask id="mask-vse">
                         <rect width="100%" height="100%" fill="black"/>
-                        <text class="mask-drawing-path" id="mask-path-vse" x="30" y="120" font-family="'Marck Script', cursive" font-size="120">Всё</text>
+                        <path class="mask-drawing-path" id="mask-path-vse" d="M 40 95 Q 60 60 100 90 Q 140 120 120 80" />
                     </mask>
-
-                    <!-- MASK 2: "с нуля" -->
+                    
                     <mask id="mask-snulya">
                         <rect width="100%" height="100%" fill="black"/>
-                        <text class="mask-drawing-path" id="mask-path-snulya" x="30" y="250" font-family="'Marck Script', cursive" font-size="120">с нуля</text>
+                        <path class="mask-drawing-path" id="mask-path-snulya" d="M 40 190 Q 200 180 300 190 Q 400 200 450 185" />
                     </mask>
-
-                    <!-- MASK 3: "Илья и Юлия" -->
+                    
                     <mask id="mask-names">
                         <rect width="100%" height="100%" fill="black"/>
-                        <text class="mask-drawing-path names" id="mask-path-names" x="180" y="360" font-family="'Marck Script', cursive" font-size="80">Илья и Юлия</text>
+                        <path class="mask-drawing-path names" id="mask-path-names" d="M 80 300 Q 200 280 300 300 Q 400 320 460 290" />
                     </mask>
                 </defs>
 
                 <!-- Layer 1: "Всё" -->
-                <text class="text-large" x="30" y="120" mask="url(#mask-vse)">Всё</text>
+                <text class="text-large" x="40" y="100" mask="url(#mask-vse)">Всё</text>
 
                 <!-- Layer 2: "НАЧИНАЕТСЯ" -->
-                <text id="printed" class="printed-text" x="300" y="130" text-anchor="middle">НАЧИНАЕТСЯ</text>
+                <text id="printed" class="printed-text" x="250" y="100" text-anchor="middle">НАЧИНАЕТСЯ</text>
 
                 <!-- Layer 3: "с нуля" -->
-                <text class="text-large" x="30" y="250" mask="url(#mask-snulya)">с нуля</text>
+                <text class="text-large" x="40" y="200" mask="url(#mask-snulya)">с нуля</text>
 
                 <!-- Layer 4: "Илья и Юлия" -->
-                <text class="text-names" x="180" y="360" mask="url(#mask-names)">Илья и Юлия</text>
+                <text class="text-names" x="80" y="310" mask="url(#mask-names)">Илья и Юлия</text>
             </svg>
         </div>
 
-        <!-- Replay button -->
         <button class="replay-btn" id="replayBtn">Написать снова</button>
 
-        <!-- Scroll indicator -->
         <div class="scroll-indicator" id="scrollIndicator">
             <span>Листайте вниз</span>
             <div class="scroll-icon"></div>
         </div>
-    </section>
+    </div>
 
     <!-- ============================================
          CONTENT SECTIONS
          ============================================ -->
 
-    <!-- Welcome Section -->
-    <section class="container">
+    <section class="container content-section">
         <div class="welcome-text">
             <p>Дорогие друзья и родные!</p>
             <p>Мы давно ждали момента, когда сможем разделить с вами самый важный и счастливый день в нашей жизни.</p>
@@ -1005,8 +972,7 @@
         </div>
     </section>
 
-    <!-- Calendar & Countdown Section -->
-    <section class="container" id="calendar-section">
+    <section class="container content-section" id="calendar-section">
         <p class="section-label">Сохраните дату</p>
         <h2 class="section-title">Июнь 2026</h2>
 
@@ -1079,8 +1045,7 @@
         </div>
     </section>
 
-    <!-- Program Section -->
-    <section class="container" id="program-section">
+    <section class="container content-section" id="program-section">
         <p class="section-label">Расписание</p>
         <h2 class="section-title">Программа дня</h2>
 
@@ -1116,8 +1081,7 @@
         </div>
     </section>
 
-    <!-- Location Section -->
-    <section class="container" id="location-section">
+    <section class="container content-section" id="location-section">
         <p class="section-label">Место проведения</p>
         <h2 class="section-title">Где нас найти</h2>
 
@@ -1141,8 +1105,7 @@
         </div>
     </section>
 
-    <!-- Dress Code Section -->
-    <section class="container dresscode-section" id="dresscode-section">
+    <section class="container content-section dresscode-section" id="dresscode-section">
         <p class="section-label">Стиль</p>
         <h2 class="section-title">Дресс-код</h2>
 
@@ -1161,8 +1124,7 @@
         </div>
     </section>
 
-    <!-- Details Section -->
-    <section class="container details-section" id="details-section">
+    <section class="container content-section details-section" id="details-section">
         <p class="section-label">Важное</p>
         <h2 class="section-title">Пожелания и детали</h2>
 
@@ -1198,8 +1160,7 @@
         </div>
     </section>
 
-    <!-- Contacts Section -->
-    <section class="container contacts-section" id="contacts-section">
+    <section class="container content-section contacts-section" id="contacts-section">
         <p class="section-label">Связь</p>
         <h2 class="section-title">Контакты</h2>
 
@@ -1211,8 +1172,7 @@
         </div>
     </section>
 
-    <!-- Form Section -->
-    <section class="container form-section" id="form-section">
+    <section class="container content-section form-section" id="form-section">
         <p class="section-label">Анкета</p>
         <h2 class="section-title">Подтвердите присутствие</h2>
 
@@ -1344,7 +1304,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
         <p class="footer-text">Будем рады видеть вас на нашей свадьбе!</p>
         <p class="footer-date">Илья <span class="footer-heart">♥</span> Юлия · 19.06.2026</p>
@@ -1352,10 +1311,9 @@
 
     <script>
         // ============================================
-        // INITIALIZATION - All variables declared first
+        // ALL VARIABLES INITIALIZED FIRST
         // ============================================
         
-        // Wedding date
         const weddingDate = new Date('2026-06-19T15:00:00+05:00');
         
         // Countdown elements
@@ -1392,6 +1350,32 @@
         // Animation state
         let animationFrameId = null;
         let isAnimating = false;
+
+        // Path lengths for stroke animation
+        const PATH_LENGTHS = {
+            vse: 300,
+            snulya: 500,
+            names: 500
+        };
+
+        // Motion coordinates
+        const MOTION = {
+            vse: { startX: 40, endX: 150, baseY: 85 },
+            snulya: { startX: 40, endX: 450, baseY: 185 },
+            names: { startX: 80, endX: 450, baseY: 295 }
+        };
+
+        // Timing
+        const TIMING = {
+            word1Duration: 2500,
+            word1Start: 500,
+            printedStart: 2200,
+            word2Start: 4000,
+            word2Duration: 2500,
+            namesStart: 7000,
+            namesDuration: 2500,
+            endBuffer: 500
+        };
 
         // ============================================
         // COUNTDOWN TIMER
@@ -1441,7 +1425,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.container').forEach(section => {
+        document.querySelectorAll('.content-section').forEach(section => {
             observer.observe(section);
         });
 
@@ -1449,27 +1433,10 @@
         // HERO ANIMATION
         // ============================================
         
-        const TIMING = {
-            word1Duration: 3000,
-            word1Start: 400,
-            printedStart: 2000,
-            word2Start: 3800,
-            word2Duration: 3000,
-            namesStart: 7500,
-            namesDuration: 3000,
-            endBuffer: 600
-        };
-
-        const MOTION = {
-            vse: { startX: 30, endX: 250, baseY: 100 },
-            snulya: { startX: 30, endX: 400, baseY: 230 },
-            names: { startX: 180, endX: 550, baseY: 340 }
-        };
-
         function svgToScreen(svgX, svgY) {
             const rect = mainSvg.getBoundingClientRect();
-            const scaleX = rect.width / 600;
-            const scaleY = rect.height / 400;
+            const scaleX = rect.width / 500;
+            const scaleY = rect.height / 350;
             return {
                 x: rect.left + (svgX * scaleX),
                 y: rect.top + (svgY * scaleY)
@@ -1492,7 +1459,7 @@
                 const eased = 1 - Math.pow(1 - progress, 3);
                 
                 const currentX = startX + (endX - startX) * eased;
-                const jitter = Math.sin(elapsed * 0.02) * 4 + (Math.random() - 0.5) * 2;
+                const jitter = Math.sin(elapsed * 0.015) * 5 + (Math.random() - 0.5) * 3;
                 const currentY = baseY + jitter;
 
                 const pos = svgToScreen(currentX, currentY);
@@ -1506,26 +1473,47 @@
             animationFrameId = requestAnimationFrame(step);
         }
 
+        function animatePath(pathEl, length, duration) {
+            pathEl.style.strokeDasharray = length;
+            pathEl.style.strokeDashoffset = length;
+            
+            // Force reflow
+            void pathEl.getBoundingClientRect();
+            
+            pathEl.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.35, 0, 0.15, 1)`;
+            pathEl.style.strokeDashoffset = '0';
+        }
+
+        function resetPath(pathEl, length) {
+            pathEl.style.transition = 'none';
+            pathEl.style.strokeDasharray = length;
+            pathEl.style.strokeDashoffset = length;
+        }
+
         function runTimeline() {
             if (isAnimating) return;
             isAnimating = true;
 
-            // Reset
+            // Reset all
             brush.classList.remove('active');
-            maskPathVse.classList.remove('drawing');
-            maskPathSnulya.classList.remove('drawing');
-            maskPathNames.classList.remove('drawing');
+            resetPath(maskPathVse, PATH_LENGTHS.vse);
+            resetPath(maskPathSnulya, PATH_LENGTHS.snulya);
+            resetPath(maskPathNames, PATH_LENGTHS.names);
             printedText.classList.remove('visible');
             scrollIndicator.classList.remove('visible');
+            replayBtn.classList.remove('visible');
             
+            corners.forEach(c => c.classList.remove('visible'));
+
+            // Start animation sequence
             requestAnimationFrame(() => {
+                // Show corners
                 corners.forEach(c => c.classList.add('visible'));
-                replayBtn.classList.remove('visible');
 
                 // Word 1: "Всё"
                 setTimeout(() => {
                     brush.classList.add('active');
-                    maskPathVse.classList.add('drawing');
+                    animatePath(maskPathVse, PATH_LENGTHS.vse, TIMING.word1Duration);
                     animateBrushMotion(MOTION.vse.startX, MOTION.vse.endX, MOTION.vse.baseY, TIMING.word1Duration);
                 }, TIMING.word1Start);
 
@@ -1537,14 +1525,14 @@
                 // Word 2: "с нуля"
                 setTimeout(() => {
                     brush.classList.add('active');
-                    maskPathSnulya.classList.add('drawing');
+                    animatePath(maskPathSnulya, PATH_LENGTHS.snulya, TIMING.word2Duration);
                     animateBrushMotion(MOTION.snulya.startX, MOTION.snulya.endX, MOTION.snulya.baseY, TIMING.word2Duration);
                 }, TIMING.word2Start);
 
                 // Names: "Илья и Юлия"
                 setTimeout(() => {
                     brush.classList.add('active');
-                    maskPathNames.classList.add('drawing');
+                    animatePath(maskPathNames, PATH_LENGTHS.names, TIMING.namesDuration);
                     animateBrushMotion(MOTION.names.startX, MOTION.names.endX, MOTION.names.baseY, TIMING.namesDuration);
                 }, TIMING.namesStart);
 
@@ -1631,8 +1619,6 @@
                 drinks: formData.getAll('drinks').join(', ')
             };
 
-            // For now, just show success
-            // In production, send to Google Sheets via Apps Script
             console.log('Form data:', data);
             
             setTimeout(() => {
@@ -1652,7 +1638,6 @@
 
         replayBtn.addEventListener('click', runTimeline);
 
-        // Smooth scroll for internal links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
