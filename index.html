@@ -6,7 +6,7 @@
     <title>Илья & Юлия | Свадьба</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Marck+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #F7F4EE;
@@ -73,119 +73,108 @@
         }
 
         /* ============================================
-           HERO ANIMATION SECTION - FIXED
+           HERO SECTION - SIMPLIFIED
            ============================================ */
-        .hero-animation {
-            width: 100%;
+        .hero {
             min-height: 100vh;
             min-height: 100dvh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
             background: linear-gradient(180deg, var(--bg-warm) 0%, var(--bg) 100%);
-        }
-
-        .canvas-container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 600px;
             padding: 40px 20px;
         }
 
-        .canvas-svg {
-            width: 100%;
-            height: auto;
-            display: block;
+        .hero-content {
+            text-align: center;
+            z-index: 10;
         }
 
-        /* Main calligraphy text */
-        .text-large {
-            font-family: 'Marck Script', cursive;
-            font-size: 140px;
-            fill: var(--ink);
+        .hero-line {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 8px;
         }
 
-        .text-names {
-            font-family: 'Marck Script', cursive;
-            font-size: 90px;
-            fill: var(--ink);
+        .hero-word {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(60px, 18vw, 120px);
+            color: var(--ink);
+            opacity: 0;
+            transform: translateY(30px);
+            line-height: 1;
         }
 
-        /* Mask drawing animation */
-        .mask-drawing-path {
-            fill: none;
-            stroke: white;
-            stroke-width: 80px;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 5000;
-            stroke-dashoffset: 5000;
+        .hero-word.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 1.2s ease, transform 1.2s ease;
         }
 
-        .mask-drawing-path.names {
-            stroke-width: 55px;
-        }
-
-        .mask-drawing-path.animate {
-            stroke-dashoffset: 0;
-            transition: stroke-dashoffset 3s cubic-bezier(0.35, 0, 0.15, 1);
-        }
-
-        .mask-drawing-path.names.animate {
-            transition-duration: 2.5s;
-        }
-
-        /* Printed text */
-        .printed-text {
+        .hero-printed {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 20px;
-            letter-spacing: 0.5em;
-            fill: var(--muted);
+            font-size: clamp(12px, 3vw, 18px);
+            letter-spacing: 0.4em;
+            color: var(--muted);
+            margin: 16px 0 32px;
             opacity: 0;
-            transition: opacity 1.5s ease;
+            transform: translateY(20px);
         }
 
-        .printed-text.visible {
+        .hero-printed.visible {
             opacity: 1;
+            transform: translateY(0);
+            transition: opacity 1s ease, transform 1s ease;
         }
 
-        /* Brush cursor */
-        .brush {
-            position: fixed;
-            pointer-events: none;
-            z-index: 1000;
+        .hero-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(48px, 14vw, 90px);
+            color: var(--ink);
             opacity: 0;
-            transform: translate(-50%, -50%) scale(0.8);
-            transition: opacity 0.3s ease;
+            transform: translateY(30px);
+            margin-top: 24px;
+            line-height: 1.2;
         }
 
-        .brush.active {
+        .hero-names.visible {
             opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
+            transform: translateY(0);
+            transition: opacity 1.2s ease, transform 1.2s ease;
         }
 
-        .brush-body {
-            width: 14px;
-            height: 14px;
-            background: radial-gradient(circle at 30% 30%, #555, var(--ink));
-            border-radius: 50%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        .hero-date {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(14px, 4vw, 20px);
+            letter-spacing: 0.15em;
+            color: var(--fg-light);
+            margin-top: 32px;
+            opacity: 0;
         }
 
-        /* Corner decorations */
+        .hero-date.visible {
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+
+        /* Decorative corners */
         .corner {
-            position: fixed;
+            position: absolute;
             width: 50px;
             height: 50px;
             opacity: 0;
-            transition: opacity 2s ease;
             z-index: 5;
         }
 
-        .corner.visible { opacity: 0.3; }
+        .corner.visible { 
+            opacity: 0.25;
+            transition: opacity 2s ease;
+        }
 
         .corner path {
             fill: none;
@@ -193,20 +182,10 @@
             stroke-width: 0.5;
         }
 
-        .corner-tl { top: 20px; left: 20px; }
-        .corner-tr { top: 20px; right: 20px; transform: rotate(90deg); }
-        .corner-bl { bottom: 20px; left: 20px; transform: rotate(-90deg); }
-        .corner-br { bottom: 20px; right: 20px; transform: rotate(180deg); }
-
-        /* Dust particles */
-        .dust {
-            position: fixed;
-            background: var(--gold);
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 0;
-            z-index: 2;
-        }
+        .corner-tl { top: 25px; left: 25px; }
+        .corner-tr { top: 25px; right: 25px; transform: rotate(90deg); }
+        .corner-bl { bottom: 25px; left: 25px; transform: rotate(-90deg); }
+        .corner-br { bottom: 25px; right: 25px; transform: rotate(180deg); }
 
         /* Scroll indicator */
         .scroll-indicator {
@@ -219,11 +198,13 @@
             align-items: center;
             gap: 12px;
             opacity: 0;
-            transition: opacity 0.8s ease;
             z-index: 20;
         }
 
-        .scroll-indicator.visible { opacity: 1; }
+        .scroll-indicator.visible {
+            opacity: 1;
+            transition: opacity 0.8s ease;
+        }
 
         .scroll-indicator span {
             font-size: 0.7rem;
@@ -258,40 +239,13 @@
             50% { top: 18px; opacity: 0.3; }
         }
 
-        /* Replay button */
-        .replay-btn {
-            position: absolute;
-            bottom: 110px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: none;
-            border: 1px solid rgba(0,0,0,0.08);
-            color: var(--fg-light);
-            padding: 10px 28px;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 11px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            cursor: pointer;
-            opacity: 0;
-            transition: all 0.4s ease;
-            z-index: 20;
-        }
-
-        .replay-btn.visible { opacity: 1; }
-        .replay-btn:hover {
-            border-color: var(--gold);
-            color: var(--fg);
-        }
-
-        /* Mobile adjustments */
+        /* Mobile */
         @media (max-width: 480px) {
-            .text-large { font-size: 100px; }
-            .text-names { font-size: 65px; }
-            .mask-drawing-path { stroke-width: 55px; }
-            .mask-drawing-path.names { stroke-width: 40px; }
-            .printed-text { font-size: 14px; letter-spacing: 0.3em; }
             .corner { width: 35px; height: 35px; }
+            .corner-tl { top: 15px; left: 15px; }
+            .corner-tr { top: 15px; right: 15px; }
+            .corner-bl { bottom: 15px; left: 15px; }
+            .corner-br { bottom: 15px; right: 15px; }
         }
 
         /* ============================================
@@ -409,7 +363,6 @@
             justify-content: center;
             font-size: 0.85rem;
             border-radius: 50%;
-            transition: all 0.3s ease;
             cursor: default;
         }
 
@@ -878,66 +831,37 @@
 <body>
 
     <!-- ============================================
-         HERO ANIMATION SECTION
+         HERO SECTION
          ============================================ -->
-    <div class="hero-animation">
-        <div class="brush" id="brush">
-            <div class="brush-body"></div>
-        </div>
-
+    <div class="hero">
+        <!-- Decorative corners -->
         <svg class="corner corner-tl" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
         <svg class="corner corner-tr" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
         <svg class="corner corner-bl" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
         <svg class="corner corner-br" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
 
-        <div class="canvas-container">
-            <!-- Expanded viewBox for large text -->
-            <svg class="canvas-svg" viewBox="0 0 1000 650" id="mainSvg">
-                <defs>
-                    <!-- MASK 1: "Всё" -->
-                    <mask id="mask-vse">
-                        <rect width="100%" height="100%" fill="black"/>
-                        <text class="mask-drawing-path" id="mask-path-vse" 
-                              x="50" y="180" 
-                              font-family="'Marck Script', cursive" 
-                              font-size="140">Всё</text>
-                    </mask>
+        <div class="hero-content">
+            <!-- Line 1: "Всё" -->
+            <div class="hero-line">
+                <span class="hero-word" id="word-vse">Всё</span>
+            </div>
 
-                    <!-- MASK 2: "с нуля" -->
-                    <mask id="mask-snulya">
-                        <rect width="100%" height="100%" fill="black"/>
-                        <text class="mask-drawing-path" id="mask-path-snulya" 
-                              x="50" y="350" 
-                              font-family="'Marck Script', cursive" 
-                              font-size="140">с нуля</text>
-                    </mask>
+            <!-- Line 2: "НАЧИНАЕТСЯ" -->
+            <div class="hero-printed" id="printed">НАЧИНАЕТСЯ</div>
 
-                    <!-- MASK 3: "Илья и Юлия" -->
-                    <mask id="mask-names">
-                        <rect width="100%" height="100%" fill="black"/>
-                        <text class="mask-drawing-path names" id="mask-path-names" 
-                              x="350" y="550" 
-                              font-family="'Marck Script', cursive" 
-                              font-size="90">Илья и Юлия</text>
-                    </mask>
-                </defs>
+            <!-- Line 3: "с нуля" -->
+            <div class="hero-line">
+                <span class="hero-word" id="word-snulya">с нуля</span>
+            </div>
 
-                <!-- Layer 1: "Всё" (masked) -->
-                <text class="text-large" x="50" y="180" mask="url(#mask-vse)">Всё</text>
+            <!-- Line 4: Names -->
+            <div class="hero-names" id="names">Илья и Юлия</div>
 
-                <!-- Layer 2: "НАЧИНАЕТСЯ" (printed, centered) -->
-                <text id="printed" class="printed-text" x="500" y="185" text-anchor="middle">НАЧИНАЕТСЯ</text>
-
-                <!-- Layer 3: "с нуля" (masked) -->
-                <text class="text-large" x="50" y="350" mask="url(#mask-snulya)">с нуля</text>
-
-                <!-- Layer 4: "Илья и Юлия" (masked, positioned right) -->
-                <text class="text-names" x="350" y="550" mask="url(#mask-names)">Илья и Юлия</text>
-            </svg>
+            <!-- Line 5: Date -->
+            <div class="hero-date" id="date">19 июня 2026</div>
         </div>
 
-        <button class="replay-btn" id="replayBtn">Написать снова</button>
-
+        <!-- Scroll indicator -->
         <div class="scroll-indicator" id="scrollIndicator">
             <span>Листайте вниз</span>
             <div class="scroll-icon"></div>
@@ -1311,18 +1235,14 @@
         const minutesEl = document.getElementById('minutes');
         const secondsEl = document.getElementById('seconds');
 
-        // Animation elements
-        const brush = document.getElementById('brush');
-        const mainSvg = document.getElementById('mainSvg');
-        const replayBtn = document.getElementById('replayBtn');
+        // Hero animation elements
+        const wordVse = document.getElementById('word-vse');
+        const printed = document.getElementById('printed');
+        const wordSnulya = document.getElementById('word-snulya');
+        const names = document.getElementById('names');
+        const date = document.getElementById('date');
         const scrollIndicator = document.getElementById('scrollIndicator');
         const corners = document.querySelectorAll('.corner');
-        
-        // Mask paths
-        const maskPathVse = document.getElementById('mask-path-vse');
-        const maskPathSnulya = document.getElementById('mask-path-snulya');
-        const maskPathNames = document.getElementById('mask-path-names');
-        const printedText = document.getElementById('printed');
 
         // Form elements
         const form = document.getElementById('rsvp-form');
@@ -1335,10 +1255,6 @@
         const drinksGroup = document.getElementById('drinks-group');
         const submitBtn = document.getElementById('submit-btn');
         const formSuccess = document.getElementById('form-success');
-
-        // Animation state
-        let animationFrameId = null;
-        let isAnimating = false;
 
         // ============================================
         // COUNTDOWN TIMER
@@ -1393,147 +1309,44 @@
         });
 
         // ============================================
-        // HERO ANIMATION - FIXED
+        // HERO ANIMATION - SIMPLE FADE IN
         // ============================================
         
-        const TIMING = {
-            word1Duration: 3500,
-            word1Start: 400,
-            printedStart: 2500,
-            word2Start: 4200,
-            word2Duration: 3500,
-            namesStart: 8500,
-            namesDuration: 3000,
-            endBuffer: 800
-        };
-
-        // Brush motion paths (coordinates relative to viewBox 1000x650)
-        const MOTION = {
-            vse: { startX: 50, endX: 350, baseY: 150 },
-            snulya: { startX: 50, endX: 550, baseY: 320 },
-            names: { startX: 350, endX: 900, baseY: 510 }
-        };
-
-        function svgToScreen(svgX, svgY) {
-            const rect = mainSvg.getBoundingClientRect();
-            const scaleX = rect.width / 1000;
-            const scaleY = rect.height / 650;
-            return {
-                x: rect.left + (svgX * scaleX),
-                y: rect.top + (svgY * scaleY)
-            };
-        }
-
-        function setBrushPos(screenX, screenY) {
-            brush.style.left = screenX + 'px';
-            brush.style.top = screenY + 'px';
-        }
-
-        function animateBrushMotion(startX, endX, baseY, duration) {
-            const startTime = performance.now();
-            
-            function step(currentTime) {
-                if (!isAnimating) return;
-
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 3);
-                
-                const currentX = startX + (endX - startX) * eased;
-                const jitter = Math.sin(elapsed * 0.02) * 5 + (Math.random() - 0.5) * 2;
-                const currentY = baseY + jitter;
-
-                const pos = svgToScreen(currentX, currentY);
-                setBrushPos(pos.x, pos.y);
-
-                if (progress < 1) {
-                    animationFrameId = requestAnimationFrame(step);
-                }
-            }
-
-            animationFrameId = requestAnimationFrame(step);
-        }
-
-        function runTimeline() {
-            if (isAnimating) return;
-            isAnimating = true;
-
-            // Reset
-            brush.classList.remove('active');
-            maskPathVse.classList.remove('animate');
-            maskPathSnulya.classList.remove('animate');
-            maskPathNames.classList.remove('animate');
-            printedText.classList.remove('visible');
-            scrollIndicator.classList.remove('visible');
-            replayBtn.classList.remove('visible');
-            
-            corners.forEach(c => c.classList.remove('visible'));
-
-            requestAnimationFrame(() => {
+        function runHeroAnimation() {
+            // Show corners
+            setTimeout(() => {
                 corners.forEach(c => c.classList.add('visible'));
+            }, 200);
 
-                // Word 1: "Всё"
-                setTimeout(() => {
-                    brush.classList.add('active');
-                    maskPathVse.classList.add('animate');
-                    animateBrushMotion(MOTION.vse.startX, MOTION.vse.endX, MOTION.vse.baseY, TIMING.word1Duration);
-                }, TIMING.word1Start);
+            // Show "Всё"
+            setTimeout(() => {
+                wordVse.classList.add('visible');
+            }, 600);
 
-                // Printed text: "НАЧИНАЕТСЯ"
-                setTimeout(() => {
-                    printedText.classList.add('visible');
-                }, TIMING.printedStart);
+            // Show "НАЧИНАЕТСЯ"
+            setTimeout(() => {
+                printed.classList.add('visible');
+            }, 1400);
 
-                // Word 2: "с нуля"
-                setTimeout(() => {
-                    brush.classList.add('active');
-                    maskPathSnulya.classList.add('animate');
-                    animateBrushMotion(MOTION.snulya.startX, MOTION.snulya.endX, MOTION.snulya.baseY, TIMING.word2Duration);
-                }, TIMING.word2Start);
+            // Show "с нуля"
+            setTimeout(() => {
+                wordSnulya.classList.add('visible');
+            }, 2200);
 
-                // Names: "Илья и Юлия"
-                setTimeout(() => {
-                    brush.classList.add('active');
-                    maskPathNames.classList.add('animate');
-                    animateBrushMotion(MOTION.names.startX, MOTION.names.endX, MOTION.names.baseY, TIMING.namesDuration);
-                }, TIMING.namesStart);
+            // Show names
+            setTimeout(() => {
+                names.classList.add('visible');
+            }, 3200);
 
-                // End
-                const totalTime = TIMING.namesStart + TIMING.namesDuration + TIMING.endBuffer;
-                setTimeout(() => {
-                    brush.classList.remove('active');
-                    replayBtn.classList.add('visible');
-                    scrollIndicator.classList.add('visible');
-                    isAnimating = false;
-                }, totalTime);
-            });
-        }
+            // Show date
+            setTimeout(() => {
+                date.classList.add('visible');
+            }, 4200);
 
-        // Dust particles
-        function createDust() {
-            const el = document.createElement('div');
-            el.className = 'dust';
-            const startX = Math.random() * window.innerWidth;
-            const size = Math.random() * 2.5 + 1;
-            
-            el.style.width = size + 'px';
-            el.style.height = size + 'px';
-            el.style.left = startX + 'px';
-            el.style.bottom = '0px';
-            
-            document.body.appendChild(el);
-            
-            const dur = 12000 + Math.random() * 5000;
-            const xDrift = (Math.random() - 0.5) * 100;
-
-            el.animate([
-                { opacity: 0, transform: 'translateY(0)' },
-                { opacity: 0.4, offset: 0.2 },
-                { opacity: 0.1, offset: 0.8 },
-                { opacity: 0, transform: `translateY(-${window.innerHeight}px) translateX(${xDrift}px)` }
-            ], { duration: dur, easing: 'linear' });
-            
-            setTimeout(() => el.remove(), dur);
+            // Show scroll indicator
+            setTimeout(() => {
+                scrollIndicator.classList.add('visible');
+            }, 5000);
         }
 
         // ============================================
@@ -1594,11 +1407,8 @@
         // ============================================
         
         window.addEventListener('load', () => {
-            setInterval(createDust, 350);
-            runTimeline();
+            runHeroAnimation();
         });
-
-        replayBtn.addEventListener('click', runTimeline);
 
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
