@@ -73,7 +73,7 @@
         }
 
         /* ============================================
-           HERO SECTION - SIMPLIFIED
+           HERO SECTION
            ============================================ */
         .hero {
             min-height: 100vh;
@@ -422,10 +422,12 @@
             letter-spacing: 0.05em;
         }
 
+        /* ============================================
+           PROGRAM - NO BACKGROUND, WITH DIVIDERS
+           ============================================ */
         .program-list {
             display: flex;
             flex-direction: column;
-            gap: 16px;
             padding: 0 10px;
         }
 
@@ -433,16 +435,7 @@
             display: flex;
             align-items: flex-start;
             gap: 16px;
-            padding: 20px;
-            background: var(--card);
-            border-radius: 12px;
-            box-shadow: 0 2px 12px var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .program-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px var(--shadow);
+            padding: 20px 0;
         }
 
         .program-time {
@@ -465,6 +458,27 @@
         .program-desc {
             font-size: 0.85rem;
             color: var(--fg-light);
+        }
+
+        /* Divider between program items */
+        .program-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 0 20px;
+        }
+
+        .program-divider-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .program-divider-icon {
+            color: var(--gold);
+            font-size: 0.6rem;
+            opacity: 0.6;
         }
 
         .location-card {
@@ -551,13 +565,11 @@
             box-shadow: 0 2px 8px var(--shadow);
         }
 
-        .details-section { padding: 0 20px; }
-
-        .details-card {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 28px 24px;
-            box-shadow: 0 4px 24px var(--shadow);
+        /* ============================================
+           DETAILS - NO BACKGROUND
+           ============================================ */
+        .details-section { 
+            padding: 0 20px; 
         }
 
         .details-intro {
@@ -604,6 +616,9 @@
             font-weight: 500;
         }
 
+        /* ============================================
+           CONTACTS - NO BACKGROUND
+           ============================================ */
         .contacts-section {
             text-align: center;
             padding: 0 20px;
@@ -614,14 +629,6 @@
             color: var(--fg-light);
             margin-bottom: 20px;
             line-height: 1.7;
-        }
-
-        .contact-card {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 20px;
-            display: inline-block;
-            box-shadow: 0 2px 12px var(--shadow);
         }
 
         .contact-name {
@@ -834,31 +841,25 @@
          HERO SECTION
          ============================================ -->
     <div class="hero">
-        <!-- Decorative corners -->
         <svg class="corner corner-tl" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
         <svg class="corner corner-tr" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
         <svg class="corner corner-bl" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
         <svg class="corner corner-br" viewBox="0 0 50 50"><path d="M0 50 L0 12 Q0 0 12 0 L50 0"/></svg>
 
         <div class="hero-content">
-            <!-- Line 1: "Всё" -->
             <div class="hero-line">
                 <span class="hero-word" id="word-vse">Всё</span>
             </div>
 
-            <!-- Line 2: "НАЧИНАЕТСЯ" -->
             <div class="hero-printed" id="printed">НАЧИНАЕТСЯ</div>
 
-            <!-- Line 3: "с нуля" -->
             <div class="hero-line">
                 <span class="hero-word" id="word-snulya">с Любви</span>
             </div>
 
-            <!-- Line 5: Date -->
             <div class="hero-date" id="date">19 июня 2026</div>
         </div>
 
-        <!-- Scroll indicator -->
         <div class="scroll-indicator" id="scrollIndicator">
             <span>Листайте вниз</span>
             <div class="scroll-icon"></div>
@@ -966,6 +967,13 @@
                     <div class="program-desc">Фуршет и приветственные напитки</div>
                 </div>
             </div>
+            
+            <div class="program-divider">
+                <span class="program-divider-line"></span>
+                <span class="program-divider-icon">✦</span>
+                <span class="program-divider-line"></span>
+            </div>
+            
             <div class="program-item">
                 <span class="program-time">16:00</span>
                 <div class="program-content">
@@ -973,6 +981,13 @@
                     <div class="program-desc">Торжественная церемония бракосочетания</div>
                 </div>
             </div>
+            
+            <div class="program-divider">
+                <span class="program-divider-line"></span>
+                <span class="program-divider-icon">✦</span>
+                <span class="program-divider-line"></span>
+            </div>
+            
             <div class="program-item">
                 <span class="program-time">17:00</span>
                 <div class="program-content">
@@ -980,6 +995,13 @@
                     <div class="program-desc">Ужин, тосты и веселье</div>
                 </div>
             </div>
+            
+            <div class="program-divider">
+                <span class="program-divider-line"></span>
+                <span class="program-divider-icon">✦</span>
+                <span class="program-divider-line"></span>
+            </div>
+            
             <div class="program-item">
                 <span class="program-time">23:00</span>
                 <div class="program-content">
@@ -1034,33 +1056,31 @@
     <section class="container content-section details-section" id="details-section">
         <h2 class="section-title">Пожелания и детали</h2>
 
-        <div class="details-card">
-            <p class="details-intro">Мы догадываемся, что после получения приглашения у вас может появиться ряд вопросов</p>
+        <p class="details-intro">Мы догадываемся, что после получения приглашения у вас может появиться ряд вопросов</p>
 
-            <div class="details-list">
-                <div class="detail-item">
-                    <div class="detail-icon">🚐</div>
-                    <div class="detail-text">
-                        <strong>Трансфер:</strong> Дорогие гости, для вашего комфорта будет организован трансфер. Если он вам необходим, пожалуйста, укажите это в анкете ниже.
-                    </div>
+        <div class="details-list">
+            <div class="detail-item">
+                <div class="detail-icon">🚐</div>
+                <div class="detail-text">
+                    <strong>Трансфер:</strong> Дорогие гости, для вашего комфорта будет организован трансфер. Если он вам необходим, пожалуйста, укажите это в анкете ниже.
                 </div>
-                <div class="detail-item">
-                    <div class="detail-icon">💌</div>
-                    <div class="detail-text">
-                        <strong>Подарки:</strong> Ваши пожелания в конверте будут лучшими подарками, которые помогут исполнить наши мечты.
-                    </div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-icon">💌</div>
+                <div class="detail-text">
+                    <strong>Подарки:</strong> Ваши пожелания в конверте будут лучшими подарками, которые помогут исполнить наши мечты.
                 </div>
-                <div class="detail-item">
-                    <div class="detail-icon">🍷</div>
-                    <div class="detail-text">
-                        <strong>Без цветов:</strong> Пожалуйста, откажитесь от цветов — наша кошка не позволит насладиться ими в полной мере. Лучшей альтернативой будет бутылочка вашего любимого вина.
-                    </div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-icon">🍷</div>
+                <div class="detail-text">
+                    <strong>Без цветов:</strong> Пожалуйста, откажитесь от цветов — наша кошка не позволит насладиться ими в полной мере. Лучшей альтернативой будет бутылочка вашего любимого вина.
                 </div>
-                <div class="detail-item">
-                    <div class="detail-icon">👶</div>
-                    <div class="detail-text">
-                        <strong>Взрослый вечер:</strong> Обратите внимание, что формат мероприятия не предполагает детской площадки и аниматоров. Пожалуйста, позаботьтесь о том, чтобы провести этот вечер без детей.
-                    </div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-icon">👶</div>
+                <div class="detail-text">
+                    <strong>Взрослый вечер:</strong> Обратите внимание, что формат мероприятия не предполагает детской площадки и аниматоров. Пожалуйста, позаботьтесь о том, чтобы провести этот вечер без детей.
                 </div>
             </div>
         </div>
@@ -1071,10 +1091,8 @@
 
         <p class="contacts-text">Если у вас возникнут вопросы или вы хотите сделать сюрприз, можете обращаться к нашему свадебному организатору</p>
 
-        <div class="contact-card">
-            <div class="contact-name">Кристина</div>
-            <a href="tel:+79122729618" class="contact-phone">+7 912 272 9618</a>
-        </div>
+        <div class="contact-name">Кристина</div>
+        <a href="tel:+79122729618" class="contact-phone">+7 912 272 9618</a>
     </section>
 
     <section class="container content-section form-section" id="form-section">
@@ -1230,7 +1248,6 @@
         const wordVse = document.getElementById('word-vse');
         const printed = document.getElementById('printed');
         const wordSnulya = document.getElementById('word-snulya');
-        const names = document.getElementById('names');
         const date = document.getElementById('date');
         const scrollIndicator = document.getElementById('scrollIndicator');
         const corners = document.querySelectorAll('.corner');
@@ -1300,44 +1317,33 @@
         });
 
         // ============================================
-        // HERO ANIMATION - SIMPLE FADE IN
+        // HERO ANIMATION
         // ============================================
         
         function runHeroAnimation() {
-            // Show corners
             setTimeout(() => {
                 corners.forEach(c => c.classList.add('visible'));
             }, 200);
 
-            // Show "Всё"
             setTimeout(() => {
                 wordVse.classList.add('visible');
             }, 600);
 
-            // Show "НАЧИНАЕТСЯ"
             setTimeout(() => {
                 printed.classList.add('visible');
             }, 1400);
 
-            // Show "с нуля"
             setTimeout(() => {
                 wordSnulya.classList.add('visible');
             }, 2200);
 
-            // Show names
-            setTimeout(() => {
-                names.classList.add('visible');
-            }, 3200);
-
-            // Show date
             setTimeout(() => {
                 date.classList.add('visible');
-            }, 4200);
+            }, 3200);
 
-            // Show scroll indicator
             setTimeout(() => {
                 scrollIndicator.classList.add('visible');
-            }, 5000);
+            }, 4000);
         }
 
         // ============================================
