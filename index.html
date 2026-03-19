@@ -43,37 +43,61 @@
             line-height: 1.7;
             overflow-x: hidden;
             max-width: 100vw;
+            position: relative;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: 
-                radial-gradient(ellipse at 20% 20%, rgba(122, 139, 110, 0.03) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(184, 167, 124, 0.03) 0%, transparent 50%);
+        /* ============================================
+           SCROLLING BACKGROUND IMAGES
+           ============================================ */
+        
+        /* Base background layer */
+        .bg-layer-base {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
             pointer-events: none;
+        }
+        
+        .bg-layer-base img {
+            width: 100%;
+            height: auto;
+            min-height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+        
+        /* Overlay background layer */
+        .bg-layer-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
-        }
-
-        body::after {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            opacity: 0.03;
             pointer-events: none;
-            z-index: 1;
+        }
+        
+        .bg-layer-overlay img {
+            width: 100%;
+            height: auto;
+            min-height: 100%;
+            object-fit: cover;
+            object-position: top center;
         }
 
         .container {
             max-width: 480px;
             margin: 0 auto;
             padding: 0 20px;
+            position: relative;
+            z-index: 1;
         }
 
         /* ============================================
-           HERO SECTION - SAME BACKGROUND AS BODY
+           HERO SECTION
            ============================================ */
         .hero {
             min-height: 100vh;
@@ -84,7 +108,6 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
-            background-color: var(--bg);
             padding: 40px 20px;
         }
 
@@ -407,106 +430,105 @@
         }
 
         /* ============================================
-   PROGRAM - TIMELINE STYLE
-   ============================================ */
-.timeline {
-    position: relative;
-    padding: 0 10px;
-    max-width: 420px;
-    margin: 0 auto;
-}
+           PROGRAM - TIMELINE STYLE
+           ============================================ */
+        .timeline {
+            position: relative;
+            padding: 0 10px;
+            max-width: 420px;
+            margin: 0 auto;
+        }
 
-/* Vertical line - слева, после иконок */
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 120px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--border) 0%, var(--accent) 50%, var(--border) 100%);
-}
+        /* Vertical line */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 120px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--border) 0%, var(--accent) 50%, var(--border) 100%);
+        }
 
-.timeline-item {
-    position: relative;
-    display: flex;
-    align-items: flex-start;
-    padding-bottom: 40px;
-}
+        .timeline-item {
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            padding-bottom: 40px;
+        }
 
-.timeline-item:last-child {
-    padding-bottom: 0;
-}
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
 
-/* Icon - слева от линии, 100px */
-.timeline-icon {
-    width: 100px;
-    height: 100px;
-    min-width: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent);
-    margin-right: 20px;
-}
+        /* Icon container */
+        .timeline-icon {
+            width: 100px;
+            height: 100px;
+            min-width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            margin-right: 20px;
+        }
 
-.timeline-icon svg {
-    width: 70px;
-    height: 70px;
-    fill: currentColor;
-}
+        .timeline-icon svg {
+            width: 70px;
+            height: 70px;
+        }
 
-/* Content - справа от линии */
-.timeline-content {
-    flex: 1;
-    padding-left: 20px;
-    padding-top: 30px;
-}
+        /* Content */
+        .timeline-content {
+            flex: 1;
+            padding-left: 20px;
+            padding-top: 30px;
+        }
 
-.timeline-time {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--accent-dark);
-    margin-bottom: 4px;
-}
+        .timeline-time {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-dark);
+            margin-bottom: 4px;
+        }
 
-.timeline-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: var(--fg);
-    margin-bottom: 4px;
-}
+        .timeline-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--fg);
+            margin-bottom: 4px;
+        }
 
-.timeline-desc {
-    font-size: 0.85rem;
-    color: var(--fg-light);
-}
+        .timeline-desc {
+            font-size: 0.85rem;
+            color: var(--fg-light);
+        }
 
-/* Mobile адаптация */
-@media (max-width: 480px) {
-    .timeline::before {
-        left: 75px;
-    }
-    
-    .timeline-icon {
-        width: 60px;
-        height: 60px;
-        min-width: 60px;
-        margin-right: 15px;
-    }
-    
-    .timeline-icon svg {
-        width: 45px;
-        height: 45px;
-    }
-    
-    .timeline-content {
-        padding-left: 15px;
-        padding-top: 15px;
-    }
-}
+        /* Mobile */
+        @media (max-width: 480px) {
+            .timeline::before {
+                left: 75px;
+            }
+            
+            .timeline-icon {
+                width: 60px;
+                height: 60px;
+                min-width: 60px;
+                margin-right: 15px;
+            }
+            
+            .timeline-icon svg {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .timeline-content {
+                padding-left: 15px;
+                padding-top: 15px;
+            }
+        }
 
         .location-card {
             background: var(--card);
@@ -567,13 +589,15 @@
             line-height: 1.8;
         }
 
+        /* ============================================
+           DRESSCODE IMAGE - NO BACKGROUND
+           ============================================ */
         .dresscode-image {
             width: 100%;
             max-width: 300px;
-            border-radius: 12px;
             margin: 0 auto;
             display: block;
-            box-shadow: 0 4px 20px var(--shadow);
+            /* Убраны: border-radius, box-shadow, background */
         }
 
         .color-palette {
@@ -830,7 +854,6 @@
         .footer {
             text-align: center;
             padding: 60px 20px;
-            background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
         }
 
         .footer-text {
@@ -871,6 +894,16 @@
     </style>
 </head>
 <body>
+
+    <!-- ============================================
+         BACKGROUND LAYERS (Scroll with content)
+         ============================================ -->
+    <div class="bg-layer-base">
+        <img src="IMG_9656.PNG" alt="">
+    </div>
+    <div class="bg-layer-overlay">
+        <img src="IMG_9653.PNG" alt="">
+    </div>
 
     <!-- ============================================
          HERO SECTION
@@ -992,73 +1025,81 @@
     </section>
 
     <!-- ============================================
-     PROGRAM - TIMELINE
-     ============================================ -->
-<section class="container content-section" id="program-section">
-    <h2 class="section-title">Программа дня</h2>
+         PROGRAM - TIMELINE WITH NATURAL ICONS
+         ============================================ -->
+    <section class="container content-section" id="program-section">
+        <h2 class="section-title">Программа дня</h2>
 
-    <div class="timeline">
-        <div class="timeline-item">
-            <div class="timeline-icon">
-                <!-- Бокал -->
-                <svg viewBox="0 0 100 100">
-                    <path d="M30 12h40v6c0 16-12 28-20 30v28h14v8H36v-8h14V48c-8-2-20-14-20-30v-6zm6 6v4c0 12 8 22 14 24 6-2 14-12 14-24v-4H36z"/>
-                </svg>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-icon">
+                    <!-- Бокал шампанского -->
+                    <svg viewBox="0 0 100 100">
+                        <path d="M35 8h30l-4 32c-2 6-8 10-11 10s-9-4-11-10L35 8z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M50 50v30" stroke="currentColor" stroke-width="3"/>
+                        <path d="M35 80h30" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M40 15c3 2 8 4 10 4s7-2 10-4" stroke="currentColor" stroke-width="2" fill="none" opacity="0.5"/>
+                        <ellipse cx="50" cy="22" rx="8" ry="3" fill="currentColor" opacity="0.2"/>
+                    </svg>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-time">15:00</div>
+                    <div class="timeline-title">Сбор гостей</div>
+                    <div class="timeline-desc">Фуршет и приветственные напитки</div>
+                </div>
             </div>
-            <div class="timeline-content">
-                <div class="timeline-time">15:00</div>
-                <div class="timeline-title">Сбор гостей</div>
-                <div class="timeline-desc">Фуршет и приветственные напитки</div>
+            
+            <div class="timeline-item">
+                <div class="timeline-icon">
+                    <!-- Обручальные кольца -->
+                    <svg viewBox="0 0 100 100">
+                        <ellipse cx="35" cy="50" rx="22" ry="28" fill="none" stroke="currentColor" stroke-width="4" transform="rotate(-15 35 50)"/>
+                        <ellipse cx="65" cy="50" rx="22" ry="28" fill="none" stroke="currentColor" stroke-width="4" transform="rotate(15 65 50)"/>
+                        <path d="M48 30c2-3 5-5 8-5s6 2 8 5" stroke="currentColor" stroke-width="2" fill="none" opacity="0.4"/>
+                    </svg>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-time">16:00</div>
+                    <div class="timeline-title">Выездная регистрация</div>
+                    <div class="timeline-desc">Торжественная церемония бракосочетания</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-icon">
+                    <!-- Банкет - тарелка с вилкой и ножом -->
+                    <svg viewBox="0 0 100 100">
+                        <ellipse cx="50" cy="52" rx="30" ry="20" fill="none" stroke="currentColor" stroke-width="3"/>
+                        <ellipse cx="50" cy="52" rx="20" ry="13" fill="none" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+                        <path d="M18 12v30c0 8 5 14 12 14" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        <path d="M24 12v25M21 12v20M27 12v20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M82 12c0 10-8 18-8 28v6c0 6 4 10 8 10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-time">17:00</div>
+                    <div class="timeline-title">Праздничный банкет</div>
+                    <div class="timeline-desc">Ужин, тосты и веселье</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-icon">
+                    <!-- Сердце -->
+                    <svg viewBox="0 0 100 100">
+                        <path d="M50 85C25 65 10 50 10 35c0-12 10-20 20-20 8 0 15 5 20 12 5-7 12-12 20-12 10 0 20 8 20 20 0 15-15 30-40 50z" 
+                              fill="none" stroke="currentColor" stroke-width="3"/>
+                        <path d="M30 28c-5 2-8 7-8 12" stroke="currentColor" stroke-width="2" fill="none" opacity="0.4" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-time">23:00</div>
+                    <div class="timeline-title">Завершение вечера</div>
+                    <div class="timeline-desc">Теплые прощания до новых встреч</div>
+                </div>
             </div>
         </div>
-        
-        <div class="timeline-item">
-            <div class="timeline-icon">
-                <!-- Кольца -->
-                <svg viewBox="0 0 100 100">
-                    <circle cx="38" cy="50" r="24" fill="none" stroke="currentColor" stroke-width="6"/>
-                    <circle cx="62" cy="50" r="24" fill="none" stroke="currentColor" stroke-width="6"/>
-                </svg>
-            </div>
-            <div class="timeline-content">
-                <div class="timeline-time">16:00</div>
-                <div class="timeline-title">Выездная регистрация</div>
-                <div class="timeline-desc">Торжественная церемония бракосочетания</div>
-            </div>
-        </div>
-        
-        <div class="timeline-item">
-            <div class="timeline-icon">
-                <!-- Тарелка с приборами -->
-                <svg viewBox="0 0 100 100">
-                    <ellipse cx="50" cy="55" rx="32" ry="22" fill="none" stroke="currentColor" stroke-width="5"/>
-                    <ellipse cx="50" cy="55" rx="20" ry="14" fill="none" stroke="currentColor" stroke-width="3"/>
-                    <path d="M22 15v32M18 15v26M26 15v26" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
-                    <path d="M78 15v26c0 6-4 10-10 10" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
-                </svg>
-            </div>
-            <div class="timeline-content">
-                <div class="timeline-time">17:00</div>
-                <div class="timeline-title">Праздничный банкет</div>
-                <div class="timeline-desc">Ужин, тосты и веселье</div>
-            </div>
-        </div>
-        
-        <div class="timeline-item">
-            <div class="timeline-icon">
-                <!-- Звезда -->
-                <svg viewBox="0 0 100 100">
-                    <path d="M50 8l11 34h36l-29 21 11 34-29-21-29 21 11-34-29-21h36z"/>
-                </svg>
-            </div>
-            <div class="timeline-content">
-                <div class="timeline-time">23:00</div>
-                <div class="timeline-title">Завершение вечера</div>
-                <div class="timeline-desc">Теплые прощания до новых встреч</div>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 
     <section class="container content-section" id="location-section">
         <h2 class="section-title">Где нас найти</h2>
@@ -1375,7 +1416,6 @@
         attendanceInputs.forEach(input => {
             input.addEventListener('change', (e) => {
                 const isAttending = e.target.value === 'Да';
-                // Removed foodGroup from array
                 const groups = [companionGroup, childrenGroup, transferGroup, allergyGroup, drinksGroup];
                 
                 groups.forEach(group => {
