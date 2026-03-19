@@ -73,7 +73,7 @@
         }
 
         /* ============================================
-           HERO SECTION
+           HERO SECTION - SAME BACKGROUND AS BODY
            ============================================ */
         .hero {
             min-height: 100vh;
@@ -84,7 +84,7 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(180deg, var(--bg-warm) 0%, var(--bg) 100%);
+            background-color: var(--bg);
             padding: 40px 20px;
         }
 
@@ -130,22 +130,6 @@
             opacity: 1;
             transform: translateY(0);
             transition: opacity 1s ease, transform 1s ease;
-        }
-
-        .hero-names {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(48px, 14vw, 90px);
-            color: var(--ink);
-            opacity: 0;
-            transform: translateY(30px);
-            margin-top: 24px;
-            line-height: 1.2;
-        }
-
-        .hero-names.visible {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 1.2s ease, transform 1.2s ease;
         }
 
         .hero-date {
@@ -423,62 +407,79 @@
         }
 
         /* ============================================
-           PROGRAM - NO BACKGROUND, WITH DIVIDERS
+           PROGRAM - TIMELINE STYLE
            ============================================ */
-        .program-list {
-            display: flex;
-            flex-direction: column;
+        .timeline {
+            position: relative;
             padding: 0 10px;
+            max-width: 400px;
+            margin: 0 auto;
         }
 
-        .program-item {
+        /* Vertical line */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--border) 0%, var(--accent-light) 50%, var(--border) 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            padding-bottom: 32px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        /* Icon circle */
+        .timeline-icon {
+            position: absolute;
+            left: 8px;
+            top: 0;
+            width: 34px;
+            height: 34px;
+            background: var(--card);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
             display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            padding: 20px 0;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            box-shadow: 0 2px 8px var(--shadow);
+            z-index: 1;
         }
 
-        .program-time {
+        .timeline-time {
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.1rem;
             font-weight: 600;
-            color: var(--accent);
-            min-width: 50px;
-        }
-
-        .program-content { flex: 1; }
-
-        .program-title-item {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.15rem;
-            font-weight: 500;
+            color: var(--accent-dark);
             margin-bottom: 4px;
         }
 
-        .program-desc {
+        .timeline-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--fg);
+            margin-bottom: 4px;
+        }
+
+        .timeline-desc {
             font-size: 0.85rem;
             color: var(--fg-light);
         }
 
-        /* Divider between program items */
-        .program-divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 0 20px;
-        }
-
-        .program-divider-line {
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
-        .program-divider-icon {
-            color: var(--gold);
-            font-size: 0.6rem;
-            opacity: 0.6;
+        /* Timeline item hover effect */
+        .timeline-item:hover .timeline-icon {
+            transform: scale(1.1);
+            transition: transform 0.3s ease;
         }
 
         .location-card {
@@ -541,13 +542,13 @@
         }
 
         .dresscode-image {
-    width: 100%;
-    max-width: 300px;
-    border-radius: 12px;
-    margin: 0 auto;
-    display: block;
-    box-shadow: 0 4px 20px var(--shadow);
-}
+            width: 100%;
+            max-width: 300px;
+            border-radius: 12px;
+            margin: 0 auto;
+            display: block;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
 
         .color-palette {
             display: flex;
@@ -825,6 +826,15 @@
             letter-spacing: 0.1em;
         }
 
+        .footer-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: var(--fg);
+            line-height: 1.2;
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -832,16 +842,6 @@
                 transition-duration: 0.01ms !important;
             }
         }
-
-        .footer-names {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
-    color: var(--fg);
-    line-height: 1.2;
-    margin-top: 16px;
-    margin-bottom: 8px;
-}
-        
     </style>
 </head>
 <body>
@@ -965,58 +965,39 @@
         </div>
     </section>
 
+    <!-- ============================================
+         PROGRAM - TIMELINE
+         ============================================ -->
     <section class="container content-section" id="program-section">
         <h2 class="section-title">Программа дня</h2>
 
-        <div class="program-list">
-            <div class="program-item">
-                <span class="program-time">15:00</span>
-                <div class="program-content">
-                    <div class="program-title-item">Сбор гостей</div>
-                    <div class="program-desc">Фуршет и приветственные напитки</div>
-                </div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-icon">🥂</div>
+                <div class="timeline-time">15:00</div>
+                <div class="timeline-title">Сбор гостей</div>
+                <div class="timeline-desc">Фуршет и приветственные напитки</div>
             </div>
             
-            <div class="program-divider">
-                <span class="program-divider-line"></span>
-                <span class="program-divider-icon">✦</span>
-                <span class="program-divider-line"></span>
+            <div class="timeline-item">
+                <div class="timeline-icon">💍</div>
+                <div class="timeline-time">16:00</div>
+                <div class="timeline-title">Выездная регистрация</div>
+                <div class="timeline-desc">Торжественная церемония бракосочетания</div>
             </div>
             
-            <div class="program-item">
-                <span class="program-time">16:00</span>
-                <div class="program-content">
-                    <div class="program-title-item">Выездная регистрация</div>
-                    <div class="program-desc">Торжественная церемония бракосочетания</div>
-                </div>
+            <div class="timeline-item">
+                <div class="timeline-icon">🍽</div>
+                <div class="timeline-time">17:00</div>
+                <div class="timeline-title">Праздничный банкет</div>
+                <div class="timeline-desc">Ужин, тосты и веселье</div>
             </div>
             
-            <div class="program-divider">
-                <span class="program-divider-line"></span>
-                <span class="program-divider-icon">✦</span>
-                <span class="program-divider-line"></span>
-            </div>
-            
-            <div class="program-item">
-                <span class="program-time">17:00</span>
-                <div class="program-content">
-                    <div class="program-title-item">Праздничный банкет</div>
-                    <div class="program-desc">Ужин, тосты и веселье</div>
-                </div>
-            </div>
-            
-            <div class="program-divider">
-                <span class="program-divider-line"></span>
-                <span class="program-divider-icon">✦</span>
-                <span class="program-divider-line"></span>
-            </div>
-            
-            <div class="program-item">
-                <span class="program-time">23:00</span>
-                <div class="program-content">
-                    <div class="program-title-item">Завершение вечера</div>
-                    <div class="program-desc">Теплые прощания до новых встреч</div>
-                </div>
+            <div class="timeline-item">
+                <div class="timeline-icon">✨</div>
+                <div class="timeline-time">23:00</div>
+                <div class="timeline-title">Завершение вечера</div>
+                <div class="timeline-desc">Теплые прощания до новых встреч</div>
             </div>
         </div>
     </section>
@@ -1093,7 +1074,7 @@
         <p class="contacts-text">Если у вас возникнут вопросы или вы хотите сделать сюрприз, можете обращаться к нашему свадебному организатору</p>
 
         <div class="contact-name">Ева</div>
-        <a href="tel:+79122729618" class="contact-phone">+7 (982) 635-38-47</a>
+        <a href="tel:+79826353847" class="contact-phone">+7 (982) 635-38-47</a>
     </section>
 
     <section class="container content-section form-section" id="form-section">
@@ -1160,24 +1141,6 @@
                     <input type="text" class="form-input" name="allergy" placeholder="Укажите аллергии, если есть">
                 </div>
 
-                <div class="form-group" id="food-group" style="display: none;">
-                    <label class="form-label">Что предпочитаете из еды?</label>
-                    <div class="form-checkbox-group">
-                        <label class="form-checkbox-item">
-                            <input type="checkbox" name="food" value="Мясо">
-                            <span>Мясо</span>
-                        </label>
-                        <label class="form-checkbox-item">
-                            <input type="checkbox" name="food" value="Птица">
-                            <span>Птица</span>
-                        </label>
-                        <label class="form-checkbox-item">
-                            <input type="checkbox" name="food" value="Рыба">
-                            <span>Рыба</span>
-                        </label>
-                    </div>
-                </div>
-
                 <div class="form-group" id="drinks-group" style="display: none;">
                     <label class="form-label">Что предпочитаете из напитков?</label>
                     <div class="form-checkbox-group">
@@ -1228,9 +1191,9 @@
     </section>
 
     <footer class="footer">
-    <p class="footer-text">Будем рады видеть вас на нашей свадьбе!</p>
-    <p class="footer-names">Илья <span class="footer-heart">♥</span> Юлия</p>
-    <p class="footer-date">19.06.2026</p>
+        <p class="footer-text">Будем рады видеть вас на нашей свадьбе!</p>
+        <p class="footer-names">Илья <span class="footer-heart">♥</span> Юлия</p>
+        <p class="footer-date">19.06.2026</p>
     </footer>
 
     <script>
@@ -1261,7 +1224,6 @@
         const childrenGroup = document.getElementById('children-group');
         const transferGroup = document.getElementById('transfer-group');
         const allergyGroup = document.getElementById('allergy-group');
-        const foodGroup = document.getElementById('food-group');
         const drinksGroup = document.getElementById('drinks-group');
         const submitBtn = document.getElementById('submit-btn');
         const formSuccess = document.getElementById('form-success');
@@ -1355,7 +1317,8 @@
         attendanceInputs.forEach(input => {
             input.addEventListener('change', (e) => {
                 const isAttending = e.target.value === 'Да';
-                const groups = [companionGroup, childrenGroup, transferGroup, allergyGroup, foodGroup, drinksGroup];
+                // Removed foodGroup from array
+                const groups = [companionGroup, childrenGroup, transferGroup, allergyGroup, drinksGroup];
                 
                 groups.forEach(group => {
                     if (isAttending) {
@@ -1389,7 +1352,6 @@
                 with_children: formData.get('with_children') || '',
                 need_transfer: formData.get('need_transfer') || '',
                 allergy: formData.get('allergy') || '',
-                food: formData.getAll('food').join(', '),
                 drinks: formData.getAll('drinks').join(', ')
             };
 
