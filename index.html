@@ -466,22 +466,24 @@
             padding-bottom: 0;
         }
 
-        /* Icon container */
-        .timeline-icon {
-            width: 100px;
-            height: 100px;
-            min-width: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            margin-right: 20px;
-        }
+    /* Icon container */
+.timeline-icon {
+    width: 100px;
+    height: 100px;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    overflow: hidden;
+    border-radius: 50%; /* Опционально: если нужно скруглить изображение */
+}
 
-        .timeline-icon svg {
-            width: 70px;
-            height: 70px;
-        }
+.timeline-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Или cover, если нужно заполнить весь круг */
+}
 
         /* Content */
         .timeline-content {
@@ -513,8 +515,10 @@
 
         /* Mobile */
         @media (max-width: 480px) {
-            .timeline::before {
-                left: 75px;
+            .timeline-icon svg {
+        width: 60px;
+        height: 60px;
+    }
             }
             
             .timeline-icon {
@@ -1032,87 +1036,66 @@
     <!-- ============================================
          PROGRAM - TIMELINE WITH NATURAL ICONS
          ============================================ -->
-    <section class="container content-section" id="program-section">
-        <h2 class="section-title">Программа дня</h2>
+    <!-- ============================================
+     PROGRAM - TIMELINE WITH IMAGES
+     ============================================ -->
+<section class="container content-section" id="program-section">
+    <h2 class="section-title">Программа дня</h2>
 
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-icon">
-                    <!-- Бокал шампанского -->
-                    <svg viewBox="0 0 100 100">
-                        <path d="M35 8h30l-4 32c-2 6-8 10-11 10s-9-4-11-10L35 8z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
-                        <path d="M50 50v30" stroke="currentColor" stroke-width="3"/>
-                        <path d="M35 80h30" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                        <path d="M40 15c3 2 8 4 10 4s7-2 10-4" stroke="currentColor" stroke-width="2" fill="none" opacity="0.5"/>
-                        <ellipse cx="50" cy="22" rx="8" ry="3" fill="currentColor" opacity="0.2"/>
-                    </svg>
-                </div>
-                <div class="timeline-content">
-                    <div class="timeline-time">15:00</div>
-                    <div class="timeline-title">Сбор гостей</div>
-                    <div class="timeline-desc">Фуршет и приветственные напитки</div>
-                </div>
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-icon">
+                <img src="IMG_9660.PNG" alt="Сбор гостей">
             </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-icon">
-                    <!-- Обручальные кольца -->
-                    <svg viewBox="0 0 100 100">
-                        <ellipse cx="35" cy="50" rx="22" ry="28" fill="none" stroke="currentColor" stroke-width="4" transform="rotate(-15 35 50)"/>
-                        <ellipse cx="65" cy="50" rx="22" ry="28" fill="none" stroke="currentColor" stroke-width="4" transform="rotate(15 65 50)"/>
-                        <path d="M48 30c2-3 5-5 8-5s6 2 8 5" stroke="currentColor" stroke-width="2" fill="none" opacity="0.4"/>
-                    </svg>
-                </div>
-                <div class="timeline-content">
-                    <div class="timeline-time">16:00</div>
-                    <div class="timeline-title">Выездная регистрация</div>
-                    <div class="timeline-desc">Торжественная церемония бракосочетания</div>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-icon">
-                    <!-- Банкет - тарелка с вилкой и ножом -->
-                    <svg viewBox="0 0 100 100">
-                        <ellipse cx="50" cy="52" rx="30" ry="20" fill="none" stroke="currentColor" stroke-width="3"/>
-                        <ellipse cx="50" cy="52" rx="20" ry="13" fill="none" stroke="currentColor" stroke-width="2" opacity="0.5"/>
-                        <path d="M18 12v30c0 8 5 14 12 14" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
-                        <path d="M24 12v25M21 12v20M27 12v20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        <path d="M82 12c0 10-8 18-8 28v6c0 6 4 10 8 10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
-                    </svg>
-                </div>
-                <div class="timeline-content">
-                    <div class="timeline-time">17:00</div>
-                    <div class="timeline-title">Праздничный банкет</div>
-                    <div class="timeline-desc">Ужин, тосты и веселье</div>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-icon">
-                    <!-- Сердце -->
-                    <svg viewBox="0 0 100 100">
-                        <path d="M50 85C25 65 10 50 10 35c0-12 10-20 20-20 8 0 15 5 20 12 5-7 12-12 20-12 10 0 20 8 20 20 0 15-15 30-40 50z" 
-                              fill="none" stroke="currentColor" stroke-width="3"/>
-                        <path d="M30 28c-5 2-8 7-8 12" stroke="currentColor" stroke-width="2" fill="none" opacity="0.4" stroke-linecap="round"/>
-                    </svg>
-                </div>
-                <div class="timeline-content">
-                    <div class="timeline-time">23:00</div>
-                    <div class="timeline-title">Завершение вечера</div>
-                    <div class="timeline-desc">Теплые прощания до новых встреч</div>
-                </div>
+            <div class="timeline-content">
+                <div class="timeline-time">15:00</div>
+                <div class="timeline-title">Сбор гостей</div>
+                <div class="timeline-desc">Фуршет и приветственные напитки</div>
             </div>
         </div>
-    </section>
+        
+        <div class="timeline-item">
+            <div class="timeline-icon">
+                <img src="IMG_9661.PNG" alt="Регистрация">
+            </div>
+            <div class="timeline-content">
+                <div class="timeline-time">16:00</div>
+                <div class="timeline-title">Выездная регистрация</div>
+                <div class="timeline-desc">Торжественная церемония бракосочетания</div>
+            </div>
+        </div>
+        
+        <div class="timeline-item">
+            <div class="timeline-icon">
+                <img src="IMG_9662.PNG" alt="Банкет">
+            </div>
+            <div class="timeline-content">
+                <div class="timeline-time">17:00</div>
+                <div class="timeline-title">Праздничный банкет</div>
+                <div class="timeline-desc">Ужин, тосты и веселье</div>
+            </div>
+        </div>
+        
+        <div class="timeline-item">
+            <div class="timeline-icon">
+                <img src="IMG_9664.PNG" alt="Завершение">
+            </div>
+            <div class="timeline-content">
+                <div class="timeline-time">23:00</div>
+                <div class="timeline-title">Завершение вечера</div>
+                <div class="timeline-desc">Теплые прощания до новых встреч</div>
+            </div>
+        </div>
+    </div>
+</section>
 
     <section class="container content-section" id="location-section">
-        <h2 class="section-title">Где нас найти</h2>
+        <h2 class="section-title">Место проведения</h2>
 
         <div class="location-card">
             <img src="dom.jpeg" alt="Усадьба Масловыхъ" class="location-image" onerror="this.style.background='linear-gradient(135deg, #E0DCD4 0%, #F7F4EE 100%)'">
             <div class="location-content">
-                <h3 class="location-name">Усадьба Масловыхъ</h3>
+                <h3 class="location-name">Усадьба МасловыхЪ</h3>
                 <p class="location-address">
                     Свердловская область,<br>
                     Сысертский муниципальный округ,<br>
